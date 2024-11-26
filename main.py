@@ -3,13 +3,16 @@ from agents.agent import ToolAgent, ToolRegistry
 
 def main():
     # Setup
+        # Register the tool
     registry = ToolRegistry()
-    registry.register(NewsSearchTool())
-    
-    # Run agent
-    agent = ToolAgent(registry)
-    result = agent.run("Search for Openai articles recently")
-    print(result)
+    news_tool = NewsSearchTool()
+    registry.register(news_tool)
 
+    # Initialize the agent
+    tool_agent = ToolAgent(registry)
+
+    # Example of running a query:
+    response = tool_agent.run("Search for news related to OpenAI")
+    print(response)
 if __name__ == "__main__":
     main()

@@ -8,113 +8,124 @@ import os
 from dotenv import load_dotenv
 
 class NewsSearchTool(BaseTool):
-    """Tool for searching news articles using TheNewsAPI"""
+    """Tool for searching news articles using NewsData.io API"""
     
     def __init__(self):
-        # Load environment variables
         load_dotenv()
-        self.api_token = os.getenv("THENEWS_API_KEY")
-        if not self.api_token:
-            raise ValueError("THENEWS_API_KEY not found in environment variables")
+        self.api_key = os.getenv("NEWS_API_KEY")
+        if not self.api_key:
+            raise ValueError("NEWS_API_KEY not found in environment variables")
         
-        self.base_host = 'api.thenewsapi.com'
-        self.base_path = '/v1/news/all'
+        self.base_host = 'newsdata.io'
+        self.base_path = '/api/1/latest'
+        self.default_limit = 5
 
     def name(self) -> str:
         return "search_news"
     
     def description(self) -> str:
-        return "Search recent news articles by keyword. Arguments: query (required), limit (optional, default=5), categories (optional, default='tech,business')"
+        return """Search recent news articles by keyword. 
+        Arguments: 
+        - query (required): Search keyword or phrase
+        - limit (optional, default=5): Number of articles to return"""
 
     def _format_date(self, date_str: str) -> str:
-        """Converts ISO format to readable date."""
+        """Format date string to readable format"""
         try:
-            dt = datetime.fromisoformat(date_str.replace('Z', '+00:00'))
-            return dt.strftime('%Y-%m-%d %H:%M:%S')
+            # Handle multiple possible date formats
+            for fmt in ["%Y-%m-%d %H:%M:%S", "%Y-%m-%dT%H:%M:%SZ", "%Y-%m-%dT%H:%M:%S.%fZ"]:
+                try:
+                    dt = datetime.strptime(date_str, fmt)
+                    return dt.strftime('%Y-%m-%d %H:%M:%S')
+                except ValueError:
+                    continue
+            return date_str
         except Exception:
             return date_str
 
-    def _time_since_published(self, published_at: str) -> str:
-        """Calculates the time since the article was published."""
+    def _calculate_time_ago(self, pub_date: str) -> str:
+        """Calculate time since publication"""
         try:
-            dt = datetime.fromisoformat(published_at.replace('Z', '+00:00'))
-            delta = datetime.utcnow() - dt
-            days = delta.days
-            hours = delta.seconds // 3600
-            if days > 0:
-                return f"{days} days ago"
-            return f"{hours} hours ago"
+            formatted_date = self._format_date(pub_date)
+            dt = datetime.strptime(formatted_date, '%Y-%m-%d %H:%M:%S')
+            now = datetime.now()
+            diff = now - dt
+            
+            if diff.days > 0:
+                return f"{diff.days} days ago"
+            hours = diff.seconds // 3600
+            if hours > 0:
+                return f"{hours} hours ago"
+            minutes = (diff.seconds % 3600) // 60
+            return f"{minutes} minutes ago"
         except Exception:
-            return "Unknown time"
+            return "time unknown"
 
-    def _validate_inputs(self, query: str, limit: int, categories: str) -> Dict:
-        """Validate input parameters"""
-        if not query.strip():
-            return {"error": "Search query cannot be empty"}
-        if limit < 1:
-            return {"error": "Limit must be greater than 0"}
-        if limit > 50:
-            return {"error": "Limit cannot exceed 50"}
-        return {}
-
-    def execute(self, query: str, limit: int = 10, categories: str = "tech,business") -> List[Dict]:
-        # Validate inputs
-        validation_error = self._validate_inputs(query, limit, categories)
-        if validation_error:
-            return [validation_error]
+    def execute(self, query: str = None, limit: int = 5, **kwargs) -> List[Dict]:
+        # Parameter validation
+        if not query or not isinstance(query, str):
+            return [{"error": "A valid search query is required"}]
+        
+        try:
+            limit = int(limit)
+            if limit < 1 or limit > 50:
+                limit = self.default_limit
+        except (TypeError, ValueError):
+            limit = self.default_limit
 
         try:
-            # Build request parameters
+            # Build API request
             params = urllib.parse.urlencode({
-                'api_token': self.api_token,
-                'search': query,
-                'categories': categories,
-                'limit': limit,
-                'language': 'en',
-                'sort': 'published_at'
+                'apikey': self.api_key,
+                'qInTitle': query,
+                'language': 'en'
             })
 
             # Create connection with timeout
             conn = http.client.HTTPSConnection(self.base_host, timeout=10)
             
             try:
-                # Send request
+                # Make request
                 conn.request('GET', f'{self.base_path}?{params}')
                 response = conn.getresponse()
                 
-                # Check response status
+                # Handle response
                 if response.status != 200:
                     error_message = response.read().decode('utf-8')
-                    return [{
-                        "error": f"API request failed with status {response.status}",
-                        "details": error_message
-                    }]
+                    return [{"error": f"API request failed with status {response.status}", "details": error_message}]
                 
-                # Parse response data
+                # Parse response
                 data = response.read()
                 results = json.loads(data.decode('utf-8'))
                 
-                # Check API return for errors
-                if 'error' in results:
-                    return [{"error": results['error']}]
-                
-                # Format the results
+                # Validate API response
+                if results.get('status') != 'success':
+                    return [{"error": results.get('message', 'API request failed')}] 
+
+                # Format results for agent
                 formatted_results = []
-                for article in results.get('data', [])[:limit]:
+                for article in results.get('results', [])[:limit]:
+                    pub_date = article.get('pubDate', '')
+                    description = article.get('description', 'No description available')
+                    
                     formatted_results.append({
                         'title': article.get('title', 'No title'),
-                        'description': article.get('description', 'No description available'),
-                        'url': article.get('url', ''),
+                        'description': description[:200] + ('...' if len(description) > 200 else ''),
+                        'url': article.get('link', ''),
+                        'published_at': self._format_date(pub_date),
+                        'time_ago': self._calculate_time_ago(pub_date),
+                        'source': article.get('source_id', 'Unknown source'),
+                        'author': article.get('creator', ['Unknown'])[0] if article.get('creator') else 'Unknown',
                         'image_url': article.get('image_url', ''),
-                        'published_at': self._time_since_published(article.get('published_at', '')),
-                        'source': article.get('source', 'Unknown'),
-                        'relevance_score': article.get('relevance_score', None)  # Include relevance_score
+                        'categories': article.get('category', []),
                     })
+
+                if not formatted_results:
+                    return [{"error": "No results found for the given query"}]
                 
-                return formatted_results or [{"error": "No results found"}]
+                return formatted_results
 
             finally:
-                # Ensure connection is closed
                 conn.close()
 
         except json.JSONDecodeError as e:
