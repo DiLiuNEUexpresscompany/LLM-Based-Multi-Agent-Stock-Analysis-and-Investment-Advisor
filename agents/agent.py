@@ -75,7 +75,7 @@ class ToolAgent:
             arguments = tool_call.get("arguments", {})
 
             # 参数映射
-            if tool_name == "search_hackernews":
+            if tool_name == "search_news":
                 arguments["query"] = arguments.pop("keyword", arguments.get("query"))
 
             result = tool.execute(**arguments)

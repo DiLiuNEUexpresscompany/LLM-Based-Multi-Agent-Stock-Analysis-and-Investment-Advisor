@@ -8,7 +8,7 @@ def main():
     # 创建新闻agent
     news_agent = NewsAgent(registry)
     # Example of running a query:
-    response = news_agent.run("Search for news related to OpenAI")
+    response = news_agent.run("Search for some Intel stock news")
     print(response)
 
 if __name__ == "__main__":

@@ -40,7 +40,6 @@ class BaseAgent(ABC):
     
     def run(self, user_input: str) -> str:
         system_prompt = self.get_system_prompt()
-        
         # Get tool call from LLM
         response = self.client.chat.completions.create(
             model=self.model,
@@ -49,7 +48,6 @@ class BaseAgent(ABC):
                 {"role": "user", "content": user_input}
             ]
         )
-        
         tool_call = self._parse_tool_call(response.choices[0].message.content)
         if not tool_call:
             return "Unable to parse tool call. Please rephrase your request."
