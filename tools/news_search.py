@@ -62,77 +62,91 @@ class NewsSearchTool(BaseTool):
             return "time unknown"
 
     def execute(self, query: str = None, limit: int = 5, **kwargs) -> List[Dict]:
-        # Parameter validation
+        print(f"Executing search with query: {query}")
+        
         if not query or not isinstance(query, str):
+            print("Invalid query parameter")
             return [{"error": "A valid search query is required"}]
         
         try:
-            limit = int(limit)
-            if limit < 1 or limit > 50:
-                limit = self.default_limit
-        except (TypeError, ValueError):
-            limit = self.default_limit
-
-        try:
-            # Build API request
             params = urllib.parse.urlencode({
                 'apikey': self.api_key,
-                'qInTitle': query,
+                'q': query,
                 'language': 'en'
             })
-
-            # Create connection with timeout
-            conn = http.client.HTTPSConnection(self.base_host, timeout=10)
             
+            conn = http.client.HTTPSConnection(self.base_host, timeout=10)
             try:
-                # Make request
+                # 打印完整请求信息
+                print(f"Making request to: {self.base_host}{self.base_path}?{params}")
+                
                 conn.request('GET', f'{self.base_path}?{params}')
                 response = conn.getresponse()
+                print(f"Response status: {response.status}")
                 
-                # Handle response
                 if response.status != 200:
                     error_message = response.read().decode('utf-8')
+                    print(f"Error response: {error_message}")
                     return [{"error": f"API request failed with status {response.status}", "details": error_message}]
                 
-                # Parse response
+                # 读取并打印原始响应数据
                 data = response.read()
-                results = json.loads(data.decode('utf-8'))
+                raw_response = data.decode('utf-8')
+                print(f"Raw API Response: {raw_response[:500]}...")  # 只打印前500个字符
                 
-                # Validate API response
+                results = json.loads(raw_response)
+                print(f"API Status: {results.get('status')}")
+                
                 if results.get('status') != 'success':
-                    return [{"error": results.get('message', 'API request failed')}] 
+                    error_msg = results.get('message', 'API request failed')
+                    print(f"API Error: {error_msg}")
+                    return [{"error": error_msg}]
 
-                # Format results for agent
+                articles = results.get('results', [])
+                print(f"Found {len(articles)} articles")
+                
+                if not articles:
+                    print("No articles found in response")
+                    return [{"error": "No results found for the given query"}]
+
                 formatted_results = []
-                for article in results.get('results', [])[:limit]:
-                    pub_date = article.get('pubDate', '')
-                    description = article.get('description', 'No description available')
-                    
-                    formatted_results.append({
-                        'title': article.get('title', 'No title'),
-                        'description': description[:200] + ('...' if len(description) > 200 else ''),
-                        'url': article.get('link', ''),
-                        'published_at': self._format_date(pub_date),
-                        'time_ago': self._calculate_time_ago(pub_date),
-                        'source': article.get('source_id', 'Unknown source'),
-                        'author': article.get('creator', ['Unknown'])[0] if article.get('creator') else 'Unknown',
-                        'image_url': article.get('image_url', ''),
-                        'categories': article.get('category', []),
-                    })
+                for i, article in enumerate(articles[:limit]):
+                    try:
+                        pub_date = article.get('pubDate', '')
+                        description = article.get('description', 'No description available')
+                        
+                        formatted_article = {
+                            'title': article.get('title', 'No title'),
+                            'description': description[:200] + ('...' if len(description) > 200 else ''),
+                            'url': article.get('link', ''),
+                            'published_at': self._format_date(pub_date) if pub_date else 'Unknown date',
+                            'time_ago': self._calculate_time_ago(pub_date) if pub_date else 'Unknown time',
+                            'source': article.get('source_id', 'Unknown source'),
+                            'author': article.get('creator', ['Unknown'])[0] if article.get('creator') else 'Unknown',
+                            'image_url': article.get('image_url', ''),
+                            'categories': article.get('category', [])
+                        }
+                        print(f"Successfully formatted article {i+1}")
+                        formatted_results.append(formatted_article)
+                    except Exception as e:
+                        print(f"Error formatting article {i+1}: {str(e)}")
+                        continue
 
                 if not formatted_results:
-                    return [{"error": "No results found for the given query"}]
+                    print("No results were successfully formatted")
+                    return [{"error": "Failed to format any news results"}]
                 
+                print(f"Successfully formatted {len(formatted_results)} articles")
                 return formatted_results
 
             finally:
                 conn.close()
 
         except json.JSONDecodeError as e:
+            print(f"JSON Decode Error: {str(e)}\nResponse data: {raw_response[:500]}")
             return [{"error": f"Failed to parse API response: {str(e)}"}]
-        except http.client.HTTPException as e:
-            return [{"error": f"HTTP request failed: {str(e)}"}]
-        except TimeoutError:
-            return [{"error": "Request timed out"}]
         except Exception as e:
+            print(f"Unexpected error in execute: {str(e)}")
+            import traceback
+            print(f"Traceback: {traceback.format_exc()}")
             return [{"error": f"Unexpected error: {str(e)}"}]
