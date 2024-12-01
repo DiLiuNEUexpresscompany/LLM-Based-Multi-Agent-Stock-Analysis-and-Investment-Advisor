@@ -7,6 +7,7 @@ from tools.base_tool import BaseTool
 import os
 from dotenv import load_dotenv
 
+
 class NewsSearchTool(BaseTool):
     """Tool for searching news articles using NewsData.io API"""
     
