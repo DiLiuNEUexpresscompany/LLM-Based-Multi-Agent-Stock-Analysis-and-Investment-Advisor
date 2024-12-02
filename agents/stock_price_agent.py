@@ -81,11 +81,42 @@ class StockPriceAgent(BaseAgent):
         return None
 
     def extract_ticker_from_query(self, query: str) -> str:
-        """从查询中提取股票代码"""
+        """从查询中提取股票代码或公司名称"""
+        # 如果模型映射失败，再尝试通过静态映射或正则表达式解析
+        static_mapping = {
+            "nvidia": "NVDA",
+            # 可以扩展其他公司名称和股票代码的映射
+        }
+
+        # 使用大模型进行解析
+        try:
+            response = self.client.chat.completions.create(
+                model=self.model,
+                messages=[
+                    {"role": "system", "content": "You are a stock assistant that maps company names to their stock tickers."},
+                    {"role": "user", "content": f"What is the stock ticker for the company mentioned in this query: '{query}'?"}
+                ]
+            )
+            ticker = response.choices[0].message.content.strip()
+            
+            # 验证是否是有效股票代码（简单验证）
+            if re.match(r'^[A-Z]{1,5}$', ticker):
+                return ticker
+        except Exception as e:
+            print(f"Error during LLM ticker extraction: {str(e)}")
+
+        # 如果模型映射失败，使用静态映射检查
+        for company, ticker in static_mapping.items():
+            if company.lower() in query.lower():
+                return ticker
+
+        # 最后使用正则表达式尝试提取可能的股票代码
         ticker_match = re.search(r'\b[A-Z]+\b', query)
         if ticker_match:
             return ticker_match.group(0)
+        
         return None
+
 
     def process_tool_arguments(self, tool_name: str, arguments: Dict) -> Dict:
         if tool_name == "fetch_stock_data":
