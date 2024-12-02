@@ -17,9 +17,9 @@ def main():
 
 
     #Example of running a query:
-    response = news_agent.run("Search for some Nvidia stock news")
+    response = news_agent.run("Search for some Meta stock news")
     print(response)
-    response_2 = stock_agent.run("Search for 2024-11-29 NVDA stock price")
+    response_2 = stock_agent.run("Search for 2024-11-20 META stock price")
     print(response_2)
 
 if __name__ == "__main__":
