@@ -1,2 +1,5 @@
 polygon-api-client
 plotly
+astrapy
+langchain-astradb
+langchain 
