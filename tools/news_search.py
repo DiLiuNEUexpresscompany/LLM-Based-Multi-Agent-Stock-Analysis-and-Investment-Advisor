@@ -19,7 +19,7 @@ class NewsSearchTool(BaseTool):
         
         self.base_host = 'newsdata.io'
         self.base_path = '/api/1/latest'
-        self.default_limit = 5
+        self.default_limit = 10
 
     def name(self) -> str:
         return "search_news"
@@ -72,7 +72,7 @@ class NewsSearchTool(BaseTool):
         try:
             params = urllib.parse.urlencode({
                 'apikey': self.api_key,
-                'q': query,
+                'qIntitle': query,
                 'language': 'en'
             })
             
