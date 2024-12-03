@@ -13,7 +13,7 @@ market_researcher = AnalysisAgent(
 
 financial_analyst = AnalysisAgent(
     role="Financial Analyst",
-    goal="Perform in-depth financial analysis",
+    goal="Perform in-depth financial analysis for the ",
     backstory="Expert in financial modeling and investment strategies",
     tools=[SearchTool()],
     verbose=True
