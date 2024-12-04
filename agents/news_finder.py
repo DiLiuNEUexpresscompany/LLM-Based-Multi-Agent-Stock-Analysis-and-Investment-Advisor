@@ -3,7 +3,7 @@ from typing import Dict, List
 from .base_agent import BaseAgent
 import json
 
-class NewsAgent(BaseAgent):
+class NewsFinder(BaseAgent):
     def format_tool_result(self, result: List[Dict]) -> str:
         """Format tool results for the LLM to process"""
         try:

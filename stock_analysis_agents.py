@@ -1,5 +1,5 @@
-from tools.news_search import NewsSearchTool
-from tools.stock_price import PolygonStockTool
+from tools.news_search_tool import NewsSearchTool
+from tools.stock_price_tool import StockPriceTool
 from tools.market_analysis_tools import MarketTrendTool, IndustryComparisonTool
 from tools.financial_analysis_tools import FinancialStatementAnalysisTool, RiskAssessmentTool
 from tools.sec_filing_tools import Retrieve10KTool, Retrieve10QTool

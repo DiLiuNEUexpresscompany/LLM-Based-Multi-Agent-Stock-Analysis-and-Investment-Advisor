@@ -1,7 +1,7 @@
-from tools.news_search import  NewsSearchTool
-from tools.stock_price import PolygonStockTool
-from tools.enhance_stock_analysis import StockAnalysisTool
-from agents.news_agent import NewsAgent
+from tools.news_search_tool import  NewsSearchTool
+from tools.stock_price_tool import StockPriceTool
+from tools.data_analysis_tool import DataAnalysisTool
+from agents.news_finder import NewsFinder
 from agents.stock_price_agent import StockPriceAgent
 from agents.enhance_stock_analysis_agent import StockAnalysisAgent
 
@@ -29,8 +29,8 @@ def main():
     # print(response_2)
 
     registry = ToolRegistry()
-    registry.register(PolygonStockTool())
-    registry.register(StockAnalysisTool())
+    registry.register(StockPriceTool())
+    registry.register(DataAnalysisTool())
 
     # Create the agent with HuggingFace endpoint
     agent = StockAnalysisAgent(

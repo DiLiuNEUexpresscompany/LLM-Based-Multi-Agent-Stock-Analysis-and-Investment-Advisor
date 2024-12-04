@@ -6,7 +6,7 @@ from tools.base_tool import BaseTool
 import os
 from dotenv import load_dotenv
 
-class PolygonStockTool(BaseTool):
+class StockPriceTool(BaseTool):
     """Tool for searching stock price using PLOYGON.io API"""
     
     def __init__(self):

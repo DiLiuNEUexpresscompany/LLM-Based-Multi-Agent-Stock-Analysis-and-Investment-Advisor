@@ -8,7 +8,7 @@ from .tool_registry import ToolRegistry
 
 logger = logging.getLogger(__name__)
 
-class DataAnalysisAgent(BaseAgent):
+class PriceTracker(BaseAgent):
     """Enhanced agent for comprehensive daily stock analysis"""
     
     def __init__(self, registry: 'ToolRegistry'):
