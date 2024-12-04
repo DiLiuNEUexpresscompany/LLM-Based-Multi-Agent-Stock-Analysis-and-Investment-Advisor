@@ -16,7 +16,7 @@ class StockMetrics:
     beta: Optional[float] = None
     sharpe_ratio: Optional[float] = None
 
-class StockAnalysisTool(BaseTool):
+class DataAnalysisTool(BaseTool):
     """Enhanced tool for mathematical analysis of stock data"""
     
     def name(self) -> str:

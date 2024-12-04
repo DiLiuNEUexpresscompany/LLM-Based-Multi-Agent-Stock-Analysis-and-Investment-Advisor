@@ -1,11 +1,11 @@
 from .base_agent import BaseAgent
-from .news_agent import NewsAgent
+from .news_finder import NewsFinder
 from .tool_registry import ToolRegistry
-from .daily_stock_analysis_agent import DataAnalysisAgent
+from .price_tracker import PriceTracker
 
 __all__ = [
     'BaseAgent',
-    'NewsAgent',
+    'NewsFinder',
     'ToolRegistry',
-    'DataAnalysisAgent'
+    'PriceTracker'
 ]

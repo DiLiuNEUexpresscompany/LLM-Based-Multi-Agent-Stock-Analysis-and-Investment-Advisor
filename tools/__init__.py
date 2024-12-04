@@ -1,9 +1,9 @@
 from .base_tool import BaseTool
-from .news_search import NewsSearchTool
-from .stock_price import PolygonStockTool
+from .news_search_tool import NewsSearchTool
+from .stock_price_tool import StockPriceTool
 
 __all__ = [
     'BaseTool',
     'NewsSearchTool',
-    'PolygonStockTool'
+    'StockPriceTool'
 ]
