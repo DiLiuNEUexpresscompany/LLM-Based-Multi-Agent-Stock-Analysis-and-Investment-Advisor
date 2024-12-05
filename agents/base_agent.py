@@ -8,12 +8,16 @@ from dotenv import load_dotenv
 from .tool_registry import ToolRegistry
 
 class BaseAgent(ABC):
-    def __init__(self, registry: 'ToolRegistry'):
+    def __init__(self, registry: ToolRegistry):
         self.registry = registry
         load_dotenv()
         self.client = Groq(api_key=os.getenv("GROQ_API_KEY"))
         self.model = "llama3-groq-70b-8192-tool-use-preview"
-    
+        self.role = "default"
+        self.goal = "default"
+        self.backstory = "default"
+        self.tools = []
+
     def _parse_tool_call(self, text: str) -> Dict:
         pattern = r'<tool_call>(.*?)</tool_call>'
         match = re.search(pattern, text, re.DOTALL)
@@ -25,7 +29,7 @@ class BaseAgent(ABC):
         return {}
     
     @abstractmethod
-    def get_system_prompt(self) -> str:
+    def get_system_prompt(self, system_prompt = None) -> str:
         """Return the system prompt for the specific agent type"""
         pass
     

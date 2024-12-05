@@ -4,6 +4,12 @@ from .base_agent import BaseAgent
 import json
 
 class NewsFinder(BaseAgent):
+    def __init__(self, registry):
+        super().__init__(registry)
+        self.role = "News Finder"
+        self.goal = "Find and retrieve relevant news articles"
+        self.backstory = "An agent specialized in locating the latest news stories."
+        self.tools.append("news_search")
     def format_tool_result(self, result: List[Dict]) -> str:
         """Format tool results for the LLM to process"""
         try:
@@ -43,24 +49,26 @@ class NewsFinder(BaseAgent):
                 "message": f"Error formatting results: {str(e)}"
             })
 
-    def get_system_prompt(self) -> str:
+    def get_system_prompt(self, system_prompt = None) -> str:
+        if system_prompt is not None:
+            return system_prompt
+        
         tools_info = self.registry.get_tools_info()
         return f"""
-        You are a news search assistant. You help find and analyze news articles.
-        When you receive search results, please:
-        1. For successful searches, provide a brief summary of the most relevant articles found, 
-           including their titles, sources, and key points.
-        2. If you find multiple related articles, group them by topic.
-        3. Always include the most important details first.
-        4. If there are any errors, explain them clearly and suggest alternatives.
+            You are a news search assistant. You help find and analyze news articles.
+            When you receive search results, please:
+            1. For successful searches, provide a brief summary of the most relevant articles found, 
+            including their titles, sources, and key points.
+            2. If you find multiple related articles, group them by topic.
+            3. Always include the most important details first.
+            4. If there are any errors, explain them clearly and suggest alternatives.
 
-        Available tools:
-        {tools_info}
-        
-        Call tools using format:
-        <tool_call>{{"name": "search_news", "arguments": {{"query": "search terms"}}}}</tool_call>
-        """
-
+            Available tools:
+            {tools_info}
+            
+            Call tools using format:
+            <tool_call>{{"name": "search_news", "arguments": {{"query": "search terms"}}}}</tool_call>
+            """
     def process_tool_arguments(self, tool_name: str, arguments: Dict) -> Dict:
         if tool_name == "search_news":
             if "query" in arguments and arguments["query"]:

@@ -14,6 +14,7 @@ registry.register(DataAnalysisTool())
 # 创建增强版agent
 agent = PriceTracker(registry)
 
+
 # 分析股票
 response = agent.run("Analyze yesterday's trading activity for AAPL")
 print(response)

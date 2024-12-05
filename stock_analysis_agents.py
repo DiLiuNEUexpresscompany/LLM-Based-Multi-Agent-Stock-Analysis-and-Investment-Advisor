@@ -1,50 +1,31 @@
-from tools.news_search_tool import NewsSearchTool
+from agents.news_finder import NewsFinder
+from agents.price_tracker import PriceTracker
+from agents.tool_registry import ToolRegistry
+from agents.base_agent import BaseAgent
+
 from tools.stock_price_tool import StockPriceTool
-from tools.market_analysis_tools import MarketTrendTool, IndustryComparisonTool
-from tools.financial_analysis_tools import FinancialStatementAnalysisTool, RiskAssessmentTool
-from tools.sec_filing_tools import Retrieve10KTool, Retrieve10QTool
-from agents.general_agent import GeneralAgent
+from tools.news_search_tool import  NewsSearchTool
+from tools.data_analysis_tool import DataAnalysisTool
 
 
 class StockAnalysisAgents:
-    def market_research_analyst(self):
-        """Creates a market research analyst agent."""
-        return GeneralAgent(
-            role="Market Research Analyst",
-            goal="Conduct in-depth market research and uncover hidden investment opportunities.",
-            backstory="An experienced analyst with deep insights into market trends and competitive landscapes.",
-            verbose=True,
-            tools=[
-                NewsSearchTool(),
-                MarketTrendTool(),
-                IndustryComparisonTool(),
-            ],
-        )
+    def news_finder(self):
+        """Creates a news finder agent."""
+        registry = ToolRegistry()
+        registry.register(NewsSearchTool())
+        return NewsFinder(registry)
 
-    def financial_strategist(self):
-        """Creates a financial strategist agent."""
-        return GeneralAgent(
-            role="Financial Strategist",
-            goal="Provide detailed financial analysis and investment insights.",
-            backstory="An expert in financial modeling and strategy, skilled at interpreting complex financial data.",
-            verbose=True,
-            tools=[
-                FinancialStatementAnalysisTool(),
-                Retrieve10KTool(),
-                Retrieve10QTool(),
-            ],
-        )
+    def price_tracker(self):
+        """Creates a price tracker agent."""
+        registry = ToolRegistry()
+        registry.register(StockPriceTool())
+        registry.register(DataAnalysisTool())
+        return PriceTracker(registry)
+    
+    def report_analyzer(self):
+        """Creates a report analyzer agent."""
+        pass
 
     def investment_advisor(self):
         """Creates an investment advisor agent."""
-        return GeneralAgent(
-            role="Investment Advisor",
-            goal="Offer actionable and comprehensive investment advice.",
-            backstory="A seasoned advisor skilled at transforming complex analyses into clear investment strategies.",
-            verbose=True,
-            tools=[
-                RiskAssessmentTool(),
-                MarketTrendTool(),
-                NewsSearchTool(),
-            ],
-        )
+        pass
