@@ -20,7 +20,6 @@ class Task:
             context (List[Task], optional): Previous tasks that provide context
             callback (Callable, optional): Function to call after task completion
         """
-        self.id = str(uuid.uuid4())  # Unique identifier for the task
         self.description = description
         self.agent = agent
         self.expected_output = expected_output or "Task output"

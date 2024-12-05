@@ -1,50 +1,78 @@
-from tools.news_search_tool import  NewsSearchTool
-from tools.stock_price_tool import StockPriceTool
-from tools.data_analysis_tool import DataAnalysisTool
-from agents.news_finder import NewsFinder
-from agents.stock_price_agent import StockPriceAgent
-from agents.enhance_stock_analysis_agent import StockAnalysisAgent
+from crews.crew import Crew
+from textwrap import dedent
 
-from agents.tool_registry import ToolRegistry
+from stock_analysis_agents import StockAnalysisAgents
+from stock_analysis_tasks import StockAnalysisTasks
 
-def main():
-    # registry = ToolRegistry()
-    # registry.register(NewsSearchTool())
-    # news_agent = NewsAgent(registry)
+from dotenv import load_dotenv
+
+# Load environment variables from a file
+dotenv_path = '.env'
+load_dotenv(dotenv_path)
+
+class FinancialCrew:
+    def __init__(self, company):
+        """Initialize with the company name to be analyzed."""
+        self.company = company
+
+    def run(self):
+        """Run the analysis by initializing agents and tasks."""
+        # Initialize the agents and tasks
+        agents = StockAnalysisAgents()
+        tasks = StockAnalysisTasks()
+
+        # Initialize agents
+        news_finder_agent = agents.news_finder()
+        price_tracker_agent = agents.price_tracker()
+        report_analyzer_agent = agents.report_analyzer()
+        investment_advisor_agent = agents.investment_advisor()
+
+        # Create tasks for each agent
+        news_task = tasks.news_finder_task(news_finder_agent, self.company)
+        price_task = tasks.price_tracker_task(price_tracker_agent, self.company)
+        report_task = tasks.report_analyzer_task(report_analyzer_agent, self.company)
+        recommendation_task = tasks.investment_advisor_task(investment_advisor_agent, self.company)
 
 
-    # registry_2 = ToolRegistry()
-    # registry_2.register(PolygonStockTool())
-    # stock_agent=StockPriceAgent(registry_2)
+        # Create a Crew for task execution
+        crew = Crew(
+            agents=[
+                news_finder_agent, 
+                price_tracker_agent, 
+                report_analyzer_agent, 
+                investment_advisor_agent
+            ],
+            tasks=[
+                news_task, 
+                price_task, 
+                report_task, 
+                recommendation_task
+            ],
+            verbose=True
+        )
 
-    # registry_news_agent = ToolRegistry()
-    # registry_news_agent.register(NewsSearchTool())
-    # news_agent = NewsAgent(registry_news_agent)
-    # response = news_agent.run("Search for some news about Nvidia stock")
-    # print(response)
-    
-    # response = news_agent.run("Search for some Meta stock news")
-    # print(response)
-    # response_2 = stock_agent.run("What is the price of Tesla in 2024-11-25?")
-    # print(response_2)
-
-    registry = ToolRegistry()
-    registry.register(StockPriceTool())
-    registry.register(DataAnalysisTool())
-
-    # Create the agent with HuggingFace endpoint
-    agent = StockAnalysisAgent(
-        registry=registry,
-        base_url="https://mqiez28uc19t0z3q.us-east-1.aws.endpoints.huggingface.cloud/v1/",
-        api_key="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"
-    )
-
-    # Example usage with streaming response
-    response = agent.run(
-        "Analyze AAPL stock with market comparison and risk metrics", 
-        stream=True,
-    )
-        
+        # Execute the tasks and return the result
+        result = crew.kickoff()
+        return result
 
 if __name__ == "__main__":
-    main()
+    # Welcome message for users
+    print("## Welcome to the Financial Analysis Team")
+    print('-------------------------------')
+
+    # Prompt for company name
+    company = input(
+        dedent("""
+            What company would you like to analyze?
+        """)
+    )
+  
+    # Run the analysis
+    financial_crew = FinancialCrew(company)
+    result = financial_crew.run()
+
+    # Display the analysis report
+    print("\n\n########################")
+    print("## Here is the final report: \n")
+    print("########################\n")
+    print(result)

@@ -1,109 +1,93 @@
-from tasks.task_base import Task
-from textwrap import dedent
-
+from crews.task import Task
 
 class StockAnalysisTasks:
-    def research(self, agent, company):
-        """Task for researching market news and summaries."""
+    def news_finder_task(self, agent, company):
+        """Task for finding recent stock news about the company."""
         return Task(
-            description=dedent(f"""
-                Collect and summarize recent news articles, publications, 
-                and market analyses related to the stock and its industry.
-                Focus on significant events, market sentiment, analyst opinions, 
-                and upcoming events like earnings releases.
-
-                Your final answer must include:
-                - A comprehensive summary of the latest news.
-                - Notable shifts in market sentiment.
-                - An evaluation of how these developments might impact the stock.
-                - Ensure to include the current stock price and a brief trend analysis.
-
-                Use the latest data available to ensure accuracy.
-
-                Selected Company: {company}
-                {self.__tip_section()}
-            """),
-            agent=agent,
-            expected_output="Comprehensive market research summary with stock price insights",
-        )
-
-    def financial_analysis(self, agent, company):
-        """Task for analyzing the financial health of the company."""
-        return Task(
-            description=dedent(f"""
-                Conduct an in-depth financial analysis of the stock's health and performance.
-                Examine key financial metrics, including:
-                - P/E ratio
-                - EPS growth
-                - Revenue trends
-                - Debt-to-equity ratio
-                Compare the stock's performance with its industry peers and overall market trends.
-
-                Your final report must:
-                - Provide a clear assessment of the company's financial health.
-                - Highlight strengths, weaknesses, and opportunities in the competitive landscape.
-                - Suggest potential risks or advantages based on current financial indicators.
-
-                Ensure the use of the most up-to-date data.
-
-                Selected Company: {company}
-                {self.__tip_section()}
-            """),
-            agent=agent,
-            expected_output="Detailed financial analysis report with key metrics and insights",
-        )
-
-    def filings_analysis(self, agent, company):
-        """Task for analyzing SEC filings of the company."""
-        return Task(
-            description=dedent(f"""
-                Analyze the latest 10-Q and 10-K filings for the stock using the EDGAR database.
+            description=f"""
+                Research and gather the latest news related to {company}.
                 Focus on:
-                - Management's discussion and analysis.
-                - Financial statements.
-                - Insider trading activity.
-                - Risk disclosures and other relevant sections.
-
-                Extract insights that could impact the stock's future performance. 
+                - Significant events affecting the company or industry.
+                - Market sentiment and any trending news stories.
+                - Analyst opinions and their potential impact on stock performance.
+                - Upcoming events like product launches, partnerships, or earnings reports.
 
                 Your final report must:
-                - Highlight key findings from the filings.
-                - Include any red flags or positive indicators that may influence investor decisions.
-
-                Use the latest filings to ensure relevance.
+                - Provide a comprehensive summary of recent and relevant news.
+                - Highlight how market sentiment could influence stock performance.
+                - Include at least 3 notable headlines with brief summaries.
+                - Add any insights into how these developments might impact the stock.
 
                 Selected Company: {company}
-                {self.__tip_section()}
-            """),
+            """,
             agent=agent,
-            expected_output="Comprehensive SEC filings analysis report with key takeaways",
+            expected_output="A comprehensive and concise summary of the latest news related to the company, with market sentiment insights.",
         )
 
-    def recommend(self, agent, company):
-        """Task for generating investment recommendations."""
+    def price_tracker_task(self, agent, company):
+        """Task for analyzing the stock price data of the company."""
         return Task(
-            description=dedent(f"""
-                Review and synthesize the insights provided by the financial analyst and research analyst.
-                Combine these findings to develop a comprehensive investment recommendation.
+            description=f"""
+                Analyze recent stock price data for {company}.
+                Focus on:
+                - Short-term price movements (daily, weekly trends).
+                - Key support and resistance levels.
+                - Volume trends and market activity.
+                - Any potential patterns, such as breakouts or pullbacks.
 
-                Consider:
-                - Financial health and market sentiment.
-                - Qualitative insights from SEC filings.
-                - Upcoming events like earnings releases.
-                - Insider trading activity.
-
-                Your final answer must:
-                - Be a highly detailed report.
-                - Provide a clear investment stance and strategy.
-                - Include supporting evidence and visually appealing, well-formatted tables.
+                Your analysis must:
+                - Provide a summary of the stock's current price trends.
+                - Include visual charts or tables to highlight price movements.
+                - Offer insights into potential trading opportunities based on the data.
 
                 Selected Company: {company}
-                {self.__tip_section()}
-            """),
+            """,
             agent=agent,
-            expected_output="Comprehensive investment recommendation report with strategic insights",
+            expected_output="Detailed stock price trend analysis with actionable insights.",
         )
 
-    def __tip_section(self):
-        """Returns a motivational tip to encourage high-quality work."""
-        return "If you deliver exceptional work, you may receive a $10,000 commission!"
+    def report_analyzer_task(self, agent, company):
+        """Task for reading and analyzing the company's financial reports."""
+        return Task(
+            description=f"""
+                Review the latest financial reports for {company}, including earnings reports, SEC filings, and annual reports.
+                Focus on:
+                - Revenue, net income, and cash flow trends.
+                - Key financial ratios (e.g., P/E ratio, EPS, ROE).
+                - Management's discussion and analysis.
+                - Identifying risks, opportunities, or red flags in the filings.
+
+                Your final report must:
+                - Provide a detailed breakdown of the company's financial performance.
+                - Highlight key strengths, weaknesses, and growth opportunities.
+                - Summarize any critical disclosures or statements that may affect investors' confidence.
+
+                Selected Company: {company}
+            """,
+            agent=agent,
+            expected_output="Detailed financial performance and SEC filings analysis with actionable insights.",
+        )
+
+    def investment_advisor_task(self, agent, company):
+        """Task for providing final investment advice for the company."""
+        return Task(
+            description=f"""
+                Synthesize all available information on {company} to deliver comprehensive investment advice.
+                Consider:
+                - Insights from market news and sentiment.
+                - Price trend analysis and trading signals.
+                - Financial health and key metrics from financial reports.
+                - Risks and opportunities identified in SEC filings.
+
+                Your final recommendation must:
+                - Provide a clear and actionable investment stance (Buy, Hold, or Sell).
+                - Include a rationale supported by detailed analysis.
+                - Suggest potential strategies for investors, such as long-term holding or short-term trading opportunities.
+
+                Deliver your advice in a well-formatted report that is easy to understand and visually engaging.
+
+                Selected Company: {company}
+            """,
+            agent=agent,
+            expected_output="Comprehensive investment advice report with actionable recommendations and supporting analysis.",
+        )

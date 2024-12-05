@@ -15,7 +15,10 @@ class PriceTracker(BaseAgent):
         super().__init__(registry)
         self.last_day_data = None
 
-    def get_system_prompt(self) -> str:
+    def get_system_prompt(self, system_prompt = None) -> str:
+        if system_prompt is not None:
+            return system_prompt
+        
         tools_desc = "\n".join([
             f"- {tool.name()}: {tool.description()}" 
             for tool in self.registry.get_all_tools()
