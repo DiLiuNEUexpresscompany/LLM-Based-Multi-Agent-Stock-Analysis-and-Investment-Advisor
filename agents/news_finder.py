@@ -6,10 +6,21 @@ import json
 class NewsFinder(BaseAgent):
     def __init__(self, registry):
         super().__init__(registry)
-        self.role = "News Finder"
-        self.goal = "Find and retrieve relevant news articles"
-        self.backstory = "An agent specialized in locating the latest news stories."
-        self.tools.append("news_search")
+        self.role = "News Finder"  # Defines the role of the module.
+        self.goal = (
+            "To research and gather the latest news related to a specified company, focusing on significant events, "
+            "market sentiment, analyst opinions, and upcoming developments like product launches or earnings reports. "
+            "The aim is to provide actionable insights into how these factors might impact the company's stock performance."
+        )
+        self.backstory = (
+            "This module is built to assist users in staying informed about the latest developments related to specific companies. "
+            "By synthesizing news, market sentiment, and expert opinions, it helps users understand the potential implications "
+            "of current events on stock performance."
+        )
+        self.tools = [
+            ["news_search", "Tool for retrieving and analyzing the latest news."]
+        ]
+
     def format_tool_result(self, result: List[Dict]) -> str:
         """Format tool results for the LLM to process"""
         try:

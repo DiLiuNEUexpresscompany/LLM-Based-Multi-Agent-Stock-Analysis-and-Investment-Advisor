@@ -52,9 +52,11 @@ class BaseAgent(ABC):
                 {"role": "user", "content": user_input}
             ]
         )
+        
         tool_call = self._parse_tool_call(response.choices[0].message.content)
         if not tool_call:
-            return "Unable to parse tool call. Please rephrase your request."
+            # If no tool call is found, directly use the LLM's response
+            return response.choices[0].message.content
 
         tool_name = tool_call.get("name")
         tool = self.registry.get_tool(tool_name)
