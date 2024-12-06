@@ -7,8 +7,6 @@ registry = ToolRegistry()
 registry.register(NewsSearchTool())
 news_agent = NewsFinder(registry)
 
-print(dir(news_agent))
-
-response = news_agent.run("Search Meta stock")
-print("=" * 200)
+response = news_agent.run("Search for the latest news about Nvidia stock")
+print("=" * 100)
 print(response)
