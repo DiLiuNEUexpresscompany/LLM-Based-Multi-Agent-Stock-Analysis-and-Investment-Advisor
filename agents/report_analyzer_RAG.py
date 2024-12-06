@@ -36,7 +36,7 @@ def main():
     collection = database.get_collection("financial_report")
 
     # Perform a similarity search
-    query = "To summarise Microsoft's financial reports."
+    query = "What are your thoughts on the stock market in 2025"
     results = collection.find(
         sort={"$vectorize": query},
         limit=5,
@@ -61,11 +61,18 @@ def main():
 
     # Create a prompt for OpenAI
     prompt = f"""
-    You are a financial analysis assistant.:
+You are an expert-level financial report analysis assistant. Your goal is to carefully examine the provided excerpts and deliver a highly accurate, insightful, and contextually rich summary of the key financial elements mentioned, such as earnings, revenue, guidance, margins, and other performance indicators. Before finalizing your response, critically evaluate your reasoning process and consider potential nuances or data points that might influence the interpretation.
 
-    {context_text}
+Context:
+{context_text}
 
-    Please provide a concise summary of the key financial aspects (e.g., earnings, revenue, guidance) related to mentioned in the above excerpts.
+Instructions:
+1. Read the provided excerpts closely to identify all relevant financial metrics, trends, and forward-looking statements.
+2. Summarize these findings in a concise, yet comprehensive manner that captures the underlying financial health and strategy.
+3. Reflect on your interpretation: Are there any hidden assumptions or notable uncertainties? Consider how factors like market conditions, operational efficiency, or competitive landscape may affect the conclusions.
+4. Present the final summary in a clear, professional tone, suitable for a financial analyst's report.
+
+Please provide your final, self-reflective summary now.
     """
 
     # Use the new API interface for chat completion
