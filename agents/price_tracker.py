@@ -13,8 +13,22 @@ class PriceTracker(BaseAgent):
     
     def __init__(self, registry: 'ToolRegistry'):
         super().__init__(registry)
-        self.last_day_data = None
-
+        self.last_day_data = None  # Stores the most recent stock data for analysis.
+        self.role = "Price Tracker"  # Defines the role of the module.
+        self.goal = (
+            "To analyze recent stock price data for a given company, focusing on short-term price movements, "
+            "key support and resistance levels, volume trends, and identifying potential patterns such as breakouts "
+            "or pullbacks. The analysis should provide actionable insights into potential trading opportunities."
+        )
+        self.backstory = (
+            "This module is designed to assist users by providing detailed and visually supported stock market analyses. "
+            "Its primary purpose is to highlight significant trends and movements in the stock price, empowering users to make "
+            "informed trading decisions."
+        )
+        self.tools = [
+            ["stock_price", "Used to retrieve and analyze stock price data."],
+            ["data_analysis", "Used for trend analysis, visualization, and identifying trading patterns."]
+        ]
     def get_system_prompt(self, system_prompt = None) -> str:
         if system_prompt is not None:
             return system_prompt
