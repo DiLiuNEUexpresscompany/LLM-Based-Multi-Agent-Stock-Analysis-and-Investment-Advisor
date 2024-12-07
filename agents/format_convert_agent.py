@@ -1,6 +1,5 @@
 from typing import Any
 from agents.tool_registry import ToolRegistry
-from .base_agent import BaseAgent
 
 class FormatConverter:
     def __init__(self, registry: ToolRegistry):
