@@ -20,7 +20,7 @@ def main():
     report_analyzer = ReportAnalyzer(registry)
     
     # Example query
-    query = "What are your thoughts on the stock market in 2025"
+    query = "Analyze nvidia's financial performance over the past year."
     
     # Run analysis
     result = report_analyzer.run(
