@@ -36,7 +36,7 @@ def main():
     collection = database.get_collection("financial_report")
 
     # Perform a similarity search
-    query = "What are your thoughts on the stock market in 2025"
+    query = "What is the revenue of Apple in 2023"
     results = collection.find(
         sort={"$vectorize": query},
         limit=5,
