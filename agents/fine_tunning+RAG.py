@@ -8,23 +8,51 @@ from textwrap import dedent
 def create_test_prompt(data_row):
     # Format the question and context into the desired structure
     prompt = dedent(f"""
-    You are an expert-level financial report analysis assistant. Your goal is to carefully examine the provided excerpts and deliver a highly accurate, insightful, and contextually rich summary of the key financial elements mentioned, such as earnings, revenue, guidance, margins, and other performance indicators. Before finalizing your response, critically evaluate your reasoning process and consider potential nuances or data points that might influence the interpretation.
-
+You are an expert-level financial report analysis assistant. Your goal is to carefully examine the provided excerpts and deliver a highly accurate, insightful, and contextually rich analysis of the key financial elements mentioned, such as earnings, revenue, guidance, margins, and other performance indicators. 
+                    
     Question:
     {data_row["question"]}
 
     Context:
     {data_row["context"]}
 
-    Instructions:
-1. Identify and list the key financial metrics mentioned in the context.
-2. Provide a concise summary of the financial performance, including trends, growth rates, and other relevant observations.
-3. Analyze the implications of the financial data, considering factors such as operational efficiency, market conditions, and strategic investments.
-4. Reflect on any assumptions or uncertainties in the data and explain how they might impact the interpretation.
-5. Present your analysis in a clear and structured format suitable for a professional financial report.
+### Instructions
+1. Key Metrics Analysis
+- Identify critical financial metrics
+- Calculate growth rates and trends
+- Compare with industry benchmarks
 
----
-    Please provide your final, self-reflective summary now.
+2. Performance Summary
+- Financial results overview
+- Notable operational trends
+- YoY/QoQ comparisons
+
+3. Strategic Analysis
+- Operational efficiency
+- Market conditions impact
+- Capital allocation review
+
+4. Risk Assessment
+- Data uncertainties
+- Market risks
+- Strategic challenges
+
+5. Market Context
+- Macroeconomic factors
+  - Inflation impact
+  - Interest rate environment
+  - FX exposure
+- Competitive positioning
+- Industry trends
+
+### Output Format
+Please provide analysis in flowing paragraphs rather than bullet points covering:
+- Key metrics summary
+- Performance analysis
+- Strategic implications
+- Risk factors
+- Market context
+ensuring clear transitions between topics while maintaining professional financial reporting standards.
     """)
     messages = [
         {"role": "system", "content": "You are a helpful assistant."},
@@ -58,7 +86,7 @@ def main():
 
     # Connect to the Hugging Face TGI client
     client_hf = OpenAI(
-        base_url="https://j292o0bevd4wfskk.us-east-1.aws.endpoints.huggingface.cloud/v1/",
+        base_url="https://b4hv8vle4pryfmy8.us-east-1.aws.endpoints.huggingface.cloud/v1/",
         api_key=hf_api_key
     )
 
