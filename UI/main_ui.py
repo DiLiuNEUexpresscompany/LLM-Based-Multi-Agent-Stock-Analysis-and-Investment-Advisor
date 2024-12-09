@@ -23,16 +23,16 @@ st.set_page_config(
 # Custom CSS styles
 st.markdown("""
 <style>
-    /* 导入优雅的衬线字体 */
-    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+    /* 导入字体 */
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
 
-    /* 主背景采用温暖的米色 */
+    /* 主背景 */
     .main {
         background-color: #f5f5f0;
         font-family: 'Cormorant Garamond', serif;
     }
 
-    /* 内容容器样式 */
+    /* 内容容器 */
     .block-container {
         padding: 3.5rem 6rem !important;
         max-width: 1300px;
@@ -49,16 +49,45 @@ st.markdown("""
         padding-bottom: 0.5rem;
     }
 
-    /* 容器样式 */
-    .search-container,
-    .chart-container,
-    .analysis-container {
-        background: #ffffff;
-        padding: 2rem;
-        border-radius: 0.5rem;
-        border: 1px solid #e5e5e0;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        margin-bottom: 2rem;
+    /* 股票代码和图标容器 */
+    .stock-header {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin: 1.5rem 0;
+    }
+
+    .stock-code {
+        font-family: 'DM Mono', monospace;
+        font-size: 1.5rem;
+        font-weight: 500;
+        color: #2c3e50;
+    }
+
+    .stock-icon {
+        color: #2c3e50;
+        font-size: 1.2rem;
+    }
+
+    /* 数据展示卡片样式 */
+    .metric-container {
+        background-color: #ffffff;
+        border-radius: 8px;
+        padding: 15px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        margin: 5px;
+    }
+
+    .metric-label {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 5px;
+    }
+
+    .metric-value {
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
     }
 
     /* 按钮样式 */
@@ -79,21 +108,19 @@ st.markdown("""
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
-    /* 文本样式 */
-    p, div {
-        font-family: 'Cormorant Garamond', serif;
-        font-size: 1.1rem;
-        line-height: 1.6;
-        color: #2c3e50;
-    }
-
-    /* 强调文本 */
-    strong {
-        color: #34495e;
-        font-weight: 600;
+    /* 图表容器 */
+    .chart-container {
+        background: white;
+        padding: 2rem;
+        border-radius: 0.5rem;
+        border: 1px solid #e5e5e0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        margin: 2rem 0;
     }
 </style>
 """, unsafe_allow_html=True)
+
+
 
 # Initialize API clients
 POLYGON_API_KEY = os.getenv("STOCK_API_KEY")
@@ -224,8 +251,13 @@ if st.button("Analyze"):
                 ]
                 for col, (label, value) in zip(cols, metrics):
                     with col:
-                        st.metric(label, value)
-                
+                        st.markdown(f"""
+                        <div class="metric-container">
+                            <div class="metric-label">{label}</div>
+                            <div class="metric-value">{value}</div>
+                        </div>
+                        """, unsafe_allow_html=True)
+                                
                 # Plot price chart
                 df = pd.DataFrame(aggs)
                 df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
