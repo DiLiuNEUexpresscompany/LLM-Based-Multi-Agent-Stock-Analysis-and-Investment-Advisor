@@ -12,7 +12,7 @@ registry.register(DataAnalysisTool())
 
 agent = PriceTracker(registry)
 
-response = agent.run("What are recent stock prices of Apple")
+response = agent.run("Analyze the stock prices of Apple in recent days, and give some advice.")
 print(response)
 with open("data/price_tracker_output.txt", "w") as f:
     f.write(response)
