@@ -37,6 +37,7 @@ st.markdown("""
         --bg-200:#f5f5f5;
         --bg-300:#cccccc;
     }
+        
 
     /* Main background and text */
     body {
@@ -72,6 +73,16 @@ st.markdown("""
         letter-spacing: 0.5px !important;
         border-bottom: 2px solid var(--primary-100);
         padding-bottom: 0.5rem;
+    }
+    h2 {
+        font-family: 'Playfair Display', serif !important;
+        color: var(--primary-100) !important; 
+        font-size: 2.0rem !important;
+        font-weight: 700 !important; 
+        letter-spacing: 0.5px !important;
+        border-bottom: 2px solid var(--primary-100); 
+        padding-bottom: 0.5rem;
+        margin-bottom: 1rem; 
     }
     h3 {
         font-family: 'Playfair Display', serif !important;
@@ -160,6 +171,7 @@ st.markdown("""
         color: var(--text-100) !important;
         border: 2px solid var(--primary-200) !important;
     }
+    
 
 </style>
 """, unsafe_allow_html=True)
@@ -197,6 +209,7 @@ def extract_ticker_from_query(query: str) -> str:
         "nvidia": "NVDA",
         "apple": "AAPL",
         "tesla": "TSLA",
+        "meta":"META"
         # 添加更多的映射
     }
 
@@ -268,7 +281,67 @@ def format_number(num):
         num /= 1000.0
     return f"${num:.1f}{['', 'K', 'M', 'B', 'T'][magnitude]}"
 
-# Main application layout
+if 'conversation_history' not in st.session_state:
+    st.session_state.conversation_history = []
+
+# Sidebar setup
+with st.sidebar:
+    st.markdown("""
+    <style>
+    .sidebar-content {
+        background-color: var(--bg-200);
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+    }
+    .history-title {
+        color: var(--primary-100);
+        font-family: 'Playfair Display', serif;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid var(--primary-100);
+    }
+    .history-item {
+        background-color: var(--bg-300);
+        padding: 1rem;
+        border-radius: 6px;
+        margin-bottom: 0.5rem;
+    }
+    .query-text {
+        color: var(--text-100);
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+    }
+    .ticker-text {
+        color: var(--primary-200);
+        font-family: 'DM Mono', monospace;
+        font-size: 1rem;
+        font-weight: 500;
+    }
+    .timestamp-text {
+        color: var(--text-200);
+        font-size: 0.8rem;
+        margin-top: 0.5rem;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+    
+    st.markdown('<p class="history-title">Conversation History</p>', unsafe_allow_html=True)
+    
+    if len(st.session_state.conversation_history) == 0:
+        st.markdown('<div class="sidebar-content">No history yet</div>', unsafe_allow_html=True)
+    else:
+        for item in reversed(st.session_state.conversation_history):
+            st.markdown(f"""
+            <div class="history-item">
+                <div class="query-text">{item['query']}</div>
+                <div class="ticker-text">{item['ticker']}</div>
+                <div class="timestamp-text">{item['timestamp']}</div>
+            </div>
+            """, unsafe_allow_html=True)
+
+# Main content
 st.title("Intelligent Stock Analysis")
 
 query = st.text_input("Enter a stock-related query (e.g., 'How is Apple performing lately?')")
@@ -279,13 +352,21 @@ if st.button("Analyze"):
         if not ticker:
             st.error("Unable to extract stock ticker from the query. Please try again.")
         else:
+            # Add to conversation history
+            from datetime import datetime
+            st.session_state.conversation_history.append({
+                'query': query,
+                'ticker': ticker,
+                'timestamp': datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            })
+            
             st.markdown(f"<h3>{ticker}</h3>", unsafe_allow_html=True)
             info, aggs = get_stock_data(ticker)
             
             if not info or not aggs:
                 st.error(f"Failed to fetch data for ticker: {ticker}. Please check the input or try again later.")
             else:
-                # Display stock metrics
+                # Rest of your existing code remains the same
                 cols = st.columns(4)
                 metrics = [
                     ("Market Cap", format_number(info.market_cap)),
@@ -348,7 +429,7 @@ if st.button("Analyze"):
 
                 st.plotly_chart(fig, use_container_width=True)
                 
-                st.markdown(f"<h3>Multi-Agent Analysis</h3>", unsafe_allow_html=True)
+                st.markdown(f"<h2>Multi-Agent Analysis</h2>", unsafe_allow_html=True)
                 # AI Analysis
                 with st.spinner("Generating AI analysis..."):
                     analysis_prompt = f"""
@@ -358,10 +439,9 @@ if st.button("Analyze"):
                     - Market Cap: {format_number(info.market_cap)}
                     """
                     response = client_OpenAI.chat.completions.create(
-                        model="gpt-4",
+                        model="gpt-4o-mini",
                         messages=[{"role": "system", "content": "You are a professional stock analyst."},
                                   {"role": "user", "content": analysis_prompt}],
                         temperature=0.7
                     )
                     st.write(response.choices[0].message.content)
-                pass
