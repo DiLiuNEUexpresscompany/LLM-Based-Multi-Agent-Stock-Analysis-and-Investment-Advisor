@@ -1,7 +1,7 @@
 from tools.news_search_tool import NewsSearchTool
 from tools.stock_price_tool import StockPriceTool
-from agents.news_finder import NewsFinder
-from agents.stock_price_agent import StockPriceAgent
+from agents.news_searcher import NewsSearcher
+from data.stock_price_agent import StockPriceAgent
 from agents.tool_registry import ToolRegistry
 
 
@@ -10,7 +10,7 @@ class StockAnalysisSystem:
         # Initialize tool registries and agents
         self.news_registry = ToolRegistry()
         self.news_registry.register(NewsSearchTool())
-        self.news_agent = NewsFinder(self.news_registry)
+        self.news_agent = NewsSearcher(self.news_registry)
 
         self.stock_price_registry = ToolRegistry()
         self.stock_price_registry.register(StockPriceTool())

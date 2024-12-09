@@ -1,5 +1,5 @@
 from tools.stock_price_tool import StockPriceTool
-from agents.stock_price_agent import StockPriceAgent
+from data.stock_price_agent import StockPriceAgent
 
 from agents.tool_registry import ToolRegistry
 

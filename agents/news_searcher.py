@@ -3,10 +3,10 @@ from typing import Dict, List
 from .base_agent import BaseAgent
 import json
 
-class NewsFinder(BaseAgent):
+class NewsSearcher(BaseAgent):
     def __init__(self, registry):
         super().__init__(registry)
-        self.role = "News Finder"  # Defines the role of the module.
+        self.role = "News Searcher"  # Defines the role of the module.
         self.goal = (
             "To research and gather the latest news related to a specified company, focusing on significant events, "
             "market sentiment, analyst opinions, and upcoming developments like product launches or earnings reports. "
@@ -89,3 +89,46 @@ class NewsFinder(BaseAgent):
                 return arguments
             raise ValueError("A valid search query is required")
         return arguments
+    
+    def run(self, user_input: str) -> str:
+        system_prompt = self.get_system_prompt()
+        # Get tool call from LLM
+        response = self.client.chat.completions.create(
+            model=self.model,
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_input}
+            ]
+        )
+        
+        tool_call = self._parse_tool_call(response.choices[0].message.content)
+        if not tool_call:
+            # If no tool call is found, directly use the LLM's response
+            return response.choices[0].message.content
+
+        tool_name = tool_call.get("name")
+        tool = self.registry.get_tool(tool_name)
+        if not tool:
+            return f"The requested tool '{tool_name}' is not available."
+
+        try:
+            arguments = self.process_tool_arguments(
+                tool_name, 
+                tool_call.get("arguments", {})
+            )
+            result = tool.execute(**arguments)
+            formatted_result = self.format_tool_result(result)
+            
+            final_response = self.client.chat.completions.create(
+                model=self.model,
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_input},
+                    {"role": "assistant", "content": response.choices[0].message.content},
+                    {"role": "user", "content": f"Tool result: {formatted_result}"}
+                ]
+            )
+            return final_response.choices[0].message.content
+            
+        except Exception as e:
+            return f"An error occurred while executing the tool: {e}"

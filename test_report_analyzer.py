@@ -2,7 +2,7 @@
 import os
 from tools.retrieval_tool import ReportRetrievalTool
 from tools.report_analysis_tool import ReportAnalysisTool
-from agents.report_analyzer import ReportAnalyzer
+from data.report_analyst import ReportAnalyst
 from agents.tool_registry import ToolRegistry
 
 def main():
@@ -17,7 +17,7 @@ def main():
     registry.register(ReportAnalysisTool())
     
     # Create the report analyzer agent
-    report_analyzer = ReportAnalyzer(registry)
+    report_analyzer = ReportAnalyst(registry)
     
     # Example query
     query = "Analyze nvidia's financial performance over the past year."

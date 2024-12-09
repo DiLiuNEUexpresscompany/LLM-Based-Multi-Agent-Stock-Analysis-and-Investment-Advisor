@@ -1,4 +1,4 @@
-from agents.news_finder import NewsFinder
+from agents.news_searcher import NewsSearcher
 from agents.price_tracker import PriceTracker
 from agents.tool_registry import ToolRegistry
 from agents.base_agent import BaseAgent
@@ -13,7 +13,7 @@ class StockAnalysisAgents:
         """Creates a news finder agent."""
         registry = ToolRegistry()
         registry.register(NewsSearchTool())
-        return NewsFinder(registry)
+        return NewsSearcher(registry)
 
     def price_tracker(self):
         """Creates a price tracker agent."""
