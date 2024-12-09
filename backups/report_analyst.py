@@ -2,7 +2,7 @@
 from typing import Any, Dict
 from agents.tool_registry import ToolRegistry
 
-class ReportAnalyzer:
+class ReportAnalyst:
     def __init__(self, registry: ToolRegistry):
         self.registry = registry
     

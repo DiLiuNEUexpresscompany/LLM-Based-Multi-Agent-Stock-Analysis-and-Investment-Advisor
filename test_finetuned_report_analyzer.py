@@ -1,6 +1,6 @@
-from agents.finetuned_report_analyzer import FinetunedReportAnalyzer
+from agents.report_analyst import FinetunedReportAnalyst
 
-finetuned_report_analyzer_agent = FinetunedReportAnalyzer()
+finetuned_report_analyzer_agent = FinetunedReportAnalyst()
 
 question = "What are Tesla's projected revenue streams from energy storage and solar products beyond electric vehicle sales?"
 
