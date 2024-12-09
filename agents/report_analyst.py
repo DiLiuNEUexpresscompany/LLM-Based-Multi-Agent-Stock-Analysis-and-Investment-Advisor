@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from astrapy.client import DataAPIClient
 from textwrap import dedent
 
-class FinetunedReportAnalyzer:
+class FinetunedReportAnalyst:
     def __init__(self):
         # Load environment variables
         load_dotenv()

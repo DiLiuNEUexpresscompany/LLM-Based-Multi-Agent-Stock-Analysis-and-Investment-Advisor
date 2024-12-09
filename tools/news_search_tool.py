@@ -62,7 +62,7 @@ class NewsSearchTool(BaseTool):
         except Exception:
             return "time unknown"
 
-    def execute(self, query: str = None, limit: int = 5, **kwargs) -> List[Dict]:
+    def execute(self, query: str = None, limit: int = 10, **kwargs) -> List[Dict]:
         print(f"Executing search with query: {query}")
         
         if not query or not isinstance(query, str):

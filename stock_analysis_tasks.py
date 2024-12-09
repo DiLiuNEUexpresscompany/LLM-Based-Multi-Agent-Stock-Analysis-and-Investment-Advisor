@@ -1,7 +1,7 @@
 from crews.task import Task
 
 class StockAnalysisTasks:
-    def news_finder_task(self, agent, company):
+    def news_search_task(self, agent, company):
         """Task for finding recent stock news about the company."""
         return Task(
             description=f"""
@@ -24,7 +24,7 @@ class StockAnalysisTasks:
             expected_output="A comprehensive and concise summary of the latest news related to the company, with market sentiment insights.",
         )
 
-    def price_tracker_task(self, agent, company):
+    def price_track_task(self, agent, company):
         """Task for analyzing the stock price data of the company."""
         return Task(
             description=f"""
@@ -45,8 +45,7 @@ class StockAnalysisTasks:
             agent=agent,
             expected_output="Detailed stock price trend analysis with actionable insights.",
         )
-
-    def report_analyzer_task(self, agent, company):
+    def report_analysis_task(self, agent, company):
         """Task for reading and analyzing the company's financial reports."""
         return Task(
             description=f"""
@@ -68,7 +67,7 @@ class StockAnalysisTasks:
             expected_output="Detailed financial performance and SEC filings analysis with actionable insights.",
         )
 
-    def investment_advisor_task(self, agent, company):
+    def investment_advice_task(self, agent, company):
         """Task for providing final investment advice for the company."""
         return Task(
             description=f"""

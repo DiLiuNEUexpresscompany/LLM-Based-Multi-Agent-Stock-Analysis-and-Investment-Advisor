@@ -6,12 +6,10 @@ from tools.data_analysis_tool import DataAnalysisTool
 import logging
 logging.basicConfig(level=logging.INFO)
 
-# 初始化
 registry = ToolRegistry()
 registry.register(StockPriceTool())
 registry.register(DataAnalysisTool())
 
-# 创建增强版agent
 agent = PriceTracker(registry)
 
 
