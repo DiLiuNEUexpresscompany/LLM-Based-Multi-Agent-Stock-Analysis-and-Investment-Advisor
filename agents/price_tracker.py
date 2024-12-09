@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 class PriceTracker(BaseAgent):
     """Enhanced agent for comprehensive daily stock analysis"""
     
-    def __init__(self, registry: 'ToolRegistry'):
+    def __init__(self, registry: ToolRegistry):
         super().__init__(registry)
         self.last_day_data = None  # Stores the most recent stock data for analysis.
         self.role = "Price Tracker"  # Defines the role of the module.
@@ -69,9 +69,17 @@ class PriceTracker(BaseAgent):
                 arguments["ticker"] = str(arguments.get("ticker", "")).upper()
                 if not arguments["ticker"]:
                     raise ValueError("Stock ticker is required")
-                
-                # Set date to yesterday
-                arguments["date"] = (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d')
+
+                # Start with yesterday's date
+                date = datetime.now() - timedelta(days=1)
+
+                # Loop backward to find the most recent working day
+                while date.weekday() >= 5:  # 5 = Saturday, 6 = Sunday
+                    date -= timedelta(days=1)
+
+                # Format the result as a string
+                arguments["date"] = date.strftime('%Y-%m-%d')
+
                 logger.info(f"Fetching data for {arguments['ticker']} on {arguments['date']}")
                 
             elif tool_name == "analyze_stock_data":
