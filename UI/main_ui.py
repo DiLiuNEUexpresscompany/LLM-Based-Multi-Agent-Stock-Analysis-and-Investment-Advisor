@@ -216,7 +216,7 @@ def extract_ticker_from_query(query: str) -> str:
     try:
         # 调用 OpenAI 模型
         response = client_OpenAI.chat.completions.create(
-            model="gpt-4",
+            model="gpt-4o-mini",
             messages=[
                 {"role": "system", "content": "You are a stock assistant that maps company names to their stock tickers."},
                 {"role": "user", "content": f"What is the stock ticker for the company mentioned in this query: '{query}'?"}
