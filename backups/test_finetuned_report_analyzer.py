@@ -1,4 +1,4 @@
-from agents.report_analyst import FinetunedReportAnalyst
+from backups.finetuned_report_analyst import FinetunedReportAnalyst
 
 finetuned_report_analyzer_agent = FinetunedReportAnalyst()
 

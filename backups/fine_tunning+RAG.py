@@ -3,65 +3,60 @@ from dotenv import load_dotenv
 import os
 from astrapy.client import DataAPIClient
 from textwrap import dedent
-
-
 def create_test_prompt(data_row):
     # Format the question and context into the desired structure
     prompt = dedent(f"""
-You are an expert-level financial report analysis assistant. Your goal is to carefully examine the provided excerpts and deliver a highly accurate, insightful, and contextually rich analysis of the key financial elements mentioned, such as earnings, revenue, guidance, margins, and other performance indicators. 
-                    
-    Question:
-    {data_row["question"]}
+        You are an expert-level financial report analysis assistant. Your goal is to carefully examine the provided excerpts and deliver a highly accurate, insightful, and contextually rich analysis of the key financial elements mentioned, such as earnings, revenue, guidance, margins, and other performance indicators. 
+                            
+            Question:
+            {data_row["question"]}
 
-    Context:
-    {data_row["context"]}
+            Context:
+            {data_row["context"]}
 
-### Instructions
-1. Key Metrics Analysis
-- Identify critical financial metrics
-- Calculate growth rates and trends
-- Compare with industry benchmarks
+        ### Instructions
+        1. Key Metrics Analysis
+        - Identify critical financial metrics
+        - Calculate growth rates and trends
+        - Compare with industry benchmarks
 
-2. Performance Summary
-- Financial results overview
-- Notable operational trends
-- YoY/QoQ comparisons
+        2. Performance Summary
+        - Financial results overview
+        - Notable operational trends
+        - YoY/QoQ comparisons
 
-3. Strategic Analysis
-- Operational efficiency
-- Market conditions impact
-- Capital allocation review
+        3. Strategic Analysis
+        - Operational efficiency
+        - Market conditions impact
+        - Capital allocation review
 
-4. Risk Assessment
-- Data uncertainties
-- Market risks
-- Strategic challenges
+        4. Risk Assessment
+        - Data uncertainties
+        - Market risks
+        - Strategic challenges
 
-5. Market Context
-- Macroeconomic factors
-  - Inflation impact
-  - Interest rate environment
-  - FX exposure
-- Competitive positioning
-- Industry trends
+        5. Market Context
+        - Macroeconomic factors
+        - Inflation impact
+        - Interest rate environment
+        - FX exposure
+        - Competitive positioning
+        - Industry trends
 
-### Output Format
-Please provide analysis in flowing paragraphs rather than bullet points covering:
-- Key metrics summary
-- Performance analysis
-- Strategic implications
-- Risk factors
-- Market context
-ensuring clear transitions between topics while maintaining professional financial reporting standards.
+        ### Output Format
+        Please provide analysis in flowing paragraphs rather than bullet points covering:
+        - Key metrics summary
+        - Performance analysis
+        - Strategic implications
+        - Risk factors
+        - Market context
+        ensuring clear transitions between topics while maintaining professional financial reporting standards.
     """)
     messages = [
         {"role": "system", "content": "You are a helpful assistant."},
         {"role": "user", "content": prompt},
     ]
     return messages
-
-
-
 def main():
     # Load the environment variables
     load_dotenv()

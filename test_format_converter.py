@@ -1,4 +1,4 @@
-from tools.format_tool import FormatConvertTool
+from tools.text_format_tool import FormatConvertTool
 from agents.format_convert_agent import FormatConverter
 from agents.tool_registry import ToolRegistry
 import json

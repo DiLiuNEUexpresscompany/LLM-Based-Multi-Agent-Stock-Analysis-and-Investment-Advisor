@@ -1,7 +1,7 @@
 # test_report_analyzer.py
 import os
-from tools.retrieval_tool import ReportRetrievalTool
-from tools.report_analysis_tool import ReportAnalysisTool
+from backups.report_retrieval_tool import ReportRetrievalTool
+from backups.report_analysis_tool import ReportAnalysisTool
 from data.report_analyst import ReportAnalyst
 from agents.tool_registry import ToolRegistry
 

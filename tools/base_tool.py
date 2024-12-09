@@ -9,7 +9,3 @@ class BaseTool(ABC):
     @abstractmethod
     def description(self) -> str:
         pass
-    
-    @abstractmethod
-    def execute(self, **kwargs) -> Any:
-        pass
