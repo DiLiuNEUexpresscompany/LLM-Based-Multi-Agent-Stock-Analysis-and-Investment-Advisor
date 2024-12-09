@@ -12,7 +12,7 @@ registry.register(DataAnalysisTool())
 
 agent = PriceTracker(registry)
 
-
-# 分析股票
-response = agent.run("Analyze yesterday's trading activity for AAPL")
+response = agent.run("What are recent stock prices of Apple")
 print(response)
+with open("data/price_tracker_output.txt", "w") as f:
+    f.write(response)
