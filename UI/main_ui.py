@@ -23,15 +23,75 @@ st.set_page_config(
 # Custom CSS styles
 st.markdown("""
 <style>
-    .main { background-color: #f8fafc; }
-    .block-container { padding: 3rem 5rem !important; max-width: 1200px; }
-    h1 { color: #1e293b; font-size: 2.25rem !important; font-weight: 700 !important; }
-    .search-container, .chart-container, .analysis-container {
-        background: white; padding: 1.5rem; border-radius: 1rem;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    /* 导入优雅的衬线字体 */
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+    /* 主背景采用温暖的米色 */
+    .main {
+        background-color: #f5f5f0;
+        font-family: 'Cormorant Garamond', serif;
     }
-    .stButton > button { background-color: #1e293b !important; color: white !important; }
-    .stButton > button:hover { background-color: #334155 !important; transform: translateY(-1px); }
+
+    /* 内容容器样式 */
+    .block-container {
+        padding: 3.5rem 6rem !important;
+        max-width: 1300px;
+    }
+
+    /* 标题样式 */
+    h1 {
+        font-family: 'Playfair Display', serif !important;
+        color: #2c3e50 !important;
+        font-size: 2.5rem !important;
+        font-weight: 600 !important;
+        letter-spacing: 0.5px !important;
+        border-bottom: 2px solid #2c3e50;
+        padding-bottom: 0.5rem;
+    }
+
+    /* 容器样式 */
+    .search-container,
+    .chart-container,
+    .analysis-container {
+        background: #ffffff;
+        padding: 2rem;
+        border-radius: 0.5rem;
+        border: 1px solid #e5e5e0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        margin-bottom: 2rem;
+    }
+
+    /* 按钮样式 */
+    .stButton > button {
+        background-color: #2c3e50 !important;
+        color: #f5f5f0 !important;
+        font-family: 'Cormorant Garamond', serif !important;
+        font-size: 1.1rem !important;
+        letter-spacing: 1px;
+        padding: 0.5rem 2rem !important;
+        border: none;
+        transition: all 0.3s ease;
+    }
+
+    .stButton > button:hover {
+        background-color: #34495e !important;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* 文本样式 */
+    p, div {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 1.1rem;
+        line-height: 1.6;
+        color: #2c3e50;
+    }
+
+    /* 强调文本 */
+    strong {
+        color: #34495e;
+        font-weight: 600;
+    }
 </style>
 """, unsafe_allow_html=True)
 
