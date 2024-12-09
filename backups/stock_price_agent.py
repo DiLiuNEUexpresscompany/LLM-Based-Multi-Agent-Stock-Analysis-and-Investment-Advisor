@@ -1,5 +1,5 @@
 from typing import Dict, List
-from .base_agent import BaseAgent
+from ..agents.base_agent import BaseAgent
 import json
 import re
 from datetime import datetime

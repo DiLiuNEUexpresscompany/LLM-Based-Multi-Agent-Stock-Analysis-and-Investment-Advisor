@@ -28,10 +28,10 @@ class FinancialCrew:
         investment_advisor_agent = agents.investment_advisor()
 
         # Create tasks for each agent
-        news_task = tasks.news_finder_task(news_finder_agent, self.company)
-        price_task = tasks.price_tracker_task(price_tracker_agent, self.company)
-        report_task = tasks.report_analyzer_task(report_analyzer_agent, self.company)
-        recommendation_task = tasks.investment_advisor_task(investment_advisor_agent, self.company)
+        news_task = tasks.news_search_task(news_finder_agent, self.company)
+        price_task = tasks.price_track_task(price_tracker_agent, self.company)
+        report_task = tasks.report_analysis_task(report_analyzer_agent, self.company)
+        recommendation_task = tasks.investment_advice_task(investment_advisor_agent, self.company)
 
 
         # Create a Crew for task execution

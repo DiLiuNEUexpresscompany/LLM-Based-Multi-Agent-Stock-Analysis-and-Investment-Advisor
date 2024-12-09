@@ -5,7 +5,7 @@ from typing import Dict, Optional, List
 from abc import ABC, abstractmethod
 from openai import OpenAI
 from dotenv import load_dotenv
-from .tool_registry import ToolRegistry
+from ..agents.tool_registry import ToolRegistry
 
 import os
 import re
