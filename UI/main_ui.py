@@ -23,33 +23,67 @@ st.set_page_config(
 # Custom CSS styles
 st.markdown("""
 <style>
-    /* 导入字体 */
+    /* Define custom variables */
     @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+    :root {
+        --primary-100:#3F51B5;
+        --primary-200:#757de8;
+        --primary-300:#dedeff;
+        --accent-100:#2196F3;
+        --accent-200:#003f8f;
+        --text-100:#333333;
+        --text-200:#5c5c5c;
+        --bg-100:#FFFFFF;
+        --bg-200:#f5f5f5;
+        --bg-300:#cccccc;
+    }
 
-    /* 主背景 */
-    .main {
-        background-color: #f5f5f0;
+    /* Main background and text */
+    body {
+        background-color: var(--bg-100) !important;
+        color: var(--text-100) !important;
         font-family: 'Cormorant Garamond', serif;
     }
 
-    /* 内容容器 */
+    /* Main container for Streamlit */
+    [data-testid="stAppViewContainer"] {
+        background-color: var(--bg-100) !important;
+        color: var(--text-100) !important;
+    }
+
+    /* Sidebar container (if applicable) */
+    [data-testid="stSidebar"] {
+        background-color: var(--bg-200) !important;
+        color: var(--text-100) !important;
+    }
+
+    /* Content container */
     .block-container {
         padding: 3.5rem 6rem !important;
         max-width: 1300px;
     }
 
-    /* 标题样式 */
+    /* Headings */
     h1 {
         font-family: 'Playfair Display', serif !important;
-        color: #2c3e50 !important;
+        color: var(--primary-100) !important;
         font-size: 2.5rem !important;
         font-weight: 600 !important;
         letter-spacing: 0.5px !important;
-        border-bottom: 2px solid #2c3e50;
+        border-bottom: 2px solid var(--primary-100);
         padding-bottom: 0.5rem;
     }
-
-    /* 股票代码和图标容器 */
+    h3 {
+        font-family: 'Playfair Display', serif !important;
+        color: var(--primary-100) !important; 
+        font-size: 1.5rem !important;
+        font-weight: 700 !important; 
+        letter-spacing: 0.5px !important;
+        border-bottom: 2px solid var(--primary-100); 
+        padding-bottom: 0.5rem;
+        margin-bottom: 1rem; 
+    }
+    /* Stock header styles */
     .stock-header {
         display: flex;
         align-items: center;
@@ -61,39 +95,41 @@ st.markdown("""
         font-family: 'DM Mono', monospace;
         font-size: 1.5rem;
         font-weight: 500;
-        color: #2c3e50;
+        color: var(--primary-200);
     }
 
     .stock-icon {
-        color: #2c3e50;
+        color: var(--accent-100);
         font-size: 1.2rem;
     }
 
-    /* 数据展示卡片样式 */
+    /* Metric card styles */
     .metric-container {
-        background-color: #ffffff;
+        background-color: var(--primary-200);
         border-radius: 8px;
         padding: 15px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         margin: 5px;
+        color: var(--text-100);
     }
 
     .metric-label {
-        font-size: 14px;
-        color: #666;
+        font-family: 'Playfair Display', serif !important;
+        font-size: 18px;
+        color: var(--bg-100);
         margin-bottom: 5px;
     }
 
     .metric-value {
         font-size: 24px;
         font-weight: bold;
-        color: #333;
+        color: var(--primary-300);
     }
 
-    /* 按钮样式 */
+    /* Button styles */
     .stButton > button {
-        background-color: #2c3e50 !important;
-        color: #f5f5f0 !important;
+        background-color: var(--primary-100) !important;
+        color: var(--bg-200) !important;
         font-family: 'Cormorant Garamond', serif !important;
         font-size: 1.1rem !important;
         letter-spacing: 1px;
@@ -103,20 +139,28 @@ st.markdown("""
     }
 
     .stButton > button:hover {
-        background-color: #34495e !important;
+        background-color: var(--accent-200) !important;
         transform: translateY(-2px);
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
-    /* 图表容器 */
+    /* Chart container styles */
     .chart-container {
-        background: white;
+        background: var(--bg-300);
         padding: 2rem;
         border-radius: 0.5rem;
-        border: 1px solid #e5e5e0;
+        border: 1px solid var(--bg-200);
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         margin: 2rem 0;
     }
+
+    /* Input and text areas */
+    textarea, input {
+        background-color: var(--bg-100) !important;
+        color: var(--text-100) !important;
+        border: 2px solid var(--primary-200) !important;
+    }
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -235,7 +279,7 @@ if st.button("Analyze"):
         if not ticker:
             st.error("Unable to extract stock ticker from the query. Please try again.")
         else:
-            st.markdown(f"### {ticker}")
+            st.markdown(f"<h3>{ticker}</h3>", unsafe_allow_html=True)
             info, aggs = get_stock_data(ticker)
             
             if not info or not aggs:
@@ -261,9 +305,50 @@ if st.button("Analyze"):
                 # Plot price chart
                 df = pd.DataFrame(aggs)
                 df['timestamp'] = pd.to_datetime(df['timestamp'], unit='ms')
-                fig = px.line(df, x='timestamp', y='close', template="plotly_white")
+                fig = px.line(df, x='timestamp', y='close', 
+                            template="plotly_dark",  # Using dark template as base
+                            line_shape='spline')
+
+                fig.update_layout(
+                    xaxis_title="Date",
+                    yaxis_title="Close Price",
+                    font=dict(
+                        family="Arial, sans-serif",
+                        size=16,
+                        color="#333333"
+                    ),
+                    xaxis=dict(
+                        title=dict(
+                            font=dict(
+                                size=18,
+                            )
+                        ),
+                        tickfont=dict(
+                            size=14,
+                        ),
+                    ),
+                    yaxis=dict(
+                        title=dict(
+                            font=dict(
+                                size=18,
+                            )
+                        ),
+                        tickfont=dict(
+                            size=14,
+                        ),
+                    )
+                )
+
+                # Update line color and properties
+                fig.update_traces(
+                    line_color='#3F51B5',     # --primary-100
+                    line_width=2,
+                    hovertemplate='<b>Date:</b> %{x}<br><b>Price:</b> $%{y:.2f}<extra></extra>'
+                )
+
                 st.plotly_chart(fig, use_container_width=True)
                 
+                st.markdown(f"<h3>Multi-Agent Analysis</h3>", unsafe_allow_html=True)
                 # AI Analysis
                 with st.spinner("Generating AI analysis..."):
                     analysis_prompt = f"""
