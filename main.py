@@ -35,14 +35,10 @@ class FinancialCrew:
 
         result = {}
 
-        news_search_result = news_task.execute()
-        result.append({"news_data", news_search_result})
-
-        price_track_result = price_task.execute()
-        result.append({"price_data", price_track_result})
-
-        report_analyst_result = report_task.execute()
-        result.append({"report_data", report_analyst_result})
+        result["news_data"] = news_task.execute()
+        result["price_data"] = price_task.execute()
+        result["report_data"] = report_task.execute()
+        result["final_report"] = recommendation_task.execute(result)
 
         return result
 
@@ -67,5 +63,14 @@ if __name__ == "__main__":
     print("## Here is the final report: \n")
     print("########################\n")
     print(result)
-    with open('data/financial_report.txt', 'a') as f:
-        f.write(f"{result}\n")
+
+    with open('data/final_financial_report.md', 'w') as f:
+        f.write("# Financial Report\n\n")
+        for key, value in result.items():
+            f.write(f"## {key}\n")
+            if isinstance(value, dict):
+                for subkey, subvalue in value.items():
+                    f.write(f"- **{subkey}**: {subvalue}\n")
+            else:
+                f.write(f"- {value}\n")
+            f.write("\n")
