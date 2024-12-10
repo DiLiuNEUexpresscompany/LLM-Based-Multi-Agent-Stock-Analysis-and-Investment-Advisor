@@ -41,7 +41,7 @@ class ReportAnalysisTool(BaseTool):
             Dict of messages for the AI model
         """
         prompt = dedent(f"""
-            You are an expert-level financial report analysis assistant. Your goal is to carefully examine the provided excerpts and deliver a highly accurate, insightful, and contextually rich analysis of the key financial elements mentioned, such as earnings, revenue, guidance, margins, and other performance indicators. 
+            You are an expert-level financial report analysis assistant. Your goal is to carefully examine the provided excerpts and deliver a highly accurate, insightful, and contextually rich analysis of the key financial elements mentioned. 
                                 
             Question:
             {data_row["question"]}
@@ -53,7 +53,6 @@ class ReportAnalysisTool(BaseTool):
             1. Key Metrics Analysis
             - Identify critical financial metrics
             - Calculate growth rates and trends
-            - Compare with industry benchmarks
 
             2. Performance Summary
             - Financial results overview
@@ -63,7 +62,6 @@ class ReportAnalysisTool(BaseTool):
             3. Strategic Analysis
             - Operational efficiency
             - Market conditions impact
-            - Capital allocation review
 
             4. Risk Assessment
             - Data uncertainties
@@ -74,7 +72,6 @@ class ReportAnalysisTool(BaseTool):
             - Macroeconomic factors
             - Inflation impact
             - Interest rate environment
-            - FX exposure
             - Competitive positioning
             - Industry trends
 
@@ -85,7 +82,7 @@ class ReportAnalysisTool(BaseTool):
             - Strategic implications
             - Risk factors
             - Market context
-            ensuring clear transitions between topics while maintaining professional financial reporting standards.
+            Ensuring clear transitions between topics while maintaining professional financial reporting standards.
         """)
         
         messages = [
