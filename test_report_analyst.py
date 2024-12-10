@@ -53,7 +53,7 @@ def main():
     
     print(result)
     # Save results to a file
-    with open('data/report_analysis_output.txt', 'w') as f:
+    with open('data/report_analysis_output.md', 'w') as f:
         f.write(result)
 
 if __name__ == "__main__":

@@ -32,15 +32,21 @@ class Task:
         """String representation of the task"""
         return f"Task: {self.description[:50]}..."
     
-    def execute(self) -> str:
+    def execute(self, input_data = None) -> str:
         """
         Execute the task using the assigned agent
         
         Returns:
             str: Result of task execution
         """
+        if input_data is not None:
+            news_data = input_data.get('news_data', {})
+            price_data = input_data.get('price_data', {})
+            report_data = input_data.get('report_data', {})
+            self.description = self.agent.generate_investment_analysis_prompt(news_data, price_data, report_data)
+
         result = self.agent.run(self.description)
-        log_path = f"data/{self.agent_name}_output.txt"
+        log_path = f"data/{self.agent_name}_output.md"
         with open(log_path, 'w') as file:
             file.write(result)
         return result
