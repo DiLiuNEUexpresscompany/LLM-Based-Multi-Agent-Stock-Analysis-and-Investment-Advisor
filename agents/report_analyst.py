@@ -3,14 +3,14 @@ from typing import Dict, Any
 from agents.tool_registry import ToolRegistry
 
 class ReportAnalyst:
-    def __init__(self, tool_registry: ToolRegistry):
+    def __init__(self, registry: ToolRegistry):
         """
         Initialize the report analyst with a tool registry
         
         Args:
             tool_registry (ToolRegistry): Registry of available tools
         """
-        self.tool_registry = tool_registry
+        self.tool_registry = registry
 
     def run(self, query: str) -> Dict[str, Any]:
         """
@@ -41,4 +41,4 @@ class ReportAnalyst:
             **analysis_result
         }
 
-        return combined_result
+        return combined_result.get('analysis', 'No analysis available')

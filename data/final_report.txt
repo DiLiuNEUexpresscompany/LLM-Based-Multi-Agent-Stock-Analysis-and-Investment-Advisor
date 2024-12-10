@@ -1,0 +1,137 @@
+Investment Analysis Prompt:
+
+        You are a senior investment advisor conducting a comprehensive stock analysis. 
+        Provide a detailed investment recommendation based on the following data:
+
+        📰 RECENT NEWS ANALYSIS:
+        {
+  "recent_headlines": [
+    "Company X Reports Strong Q2 Earnings",
+    "Tech Sector Facing Challenges"
+  ],
+  "sentiment": "Mostly Positive"
+}
+
+        💹 STOCK PRICE DYNAMICS:
+        {
+  "current_price": 150.25,
+  "52_week_range": {
+    "low": 120.5,
+    "high": 180.75
+  },
+  "moving_averages": {
+    "50_day": 145.6,
+    "200_day": 155.3
+  }
+}
+
+        📊 FINANCIAL REPORT INSIGHTS:
+        {
+  "revenue": "1.2B",
+  "net_income": "250M",
+  "key_ratios": {
+    "P/E": 22.5,
+    "ROE": "15.3%"
+  }
+}
+
+        REQUIRED ANALYSIS COMPONENTS:
+        1. Company Fundamental Health
+        - Assess overall financial stability
+        - Evaluate key financial ratios
+        - Identify potential growth indicators or red flags
+
+        2. Market Sentiment and External Factors
+        - Analyze recent news impact on stock perception
+        - Assess industry trends and competitive landscape
+        - Evaluate macroeconomic influences
+
+        3. Technical Price Analysis
+        - Review recent price movements
+        - Identify support and resistance levels
+        - Assess momentum and trading signals
+
+        4. Risk Assessment
+        - Short-term and long-term risk evaluation
+        - Potential volatility factors
+        - Comparative risk against sector benchmarks
+
+        5. Investment Recommendation
+        - Provide a clear recommendation:
+            * Strong Buy
+            * Buy
+            * Hold
+            * Sell
+            * Strong Sell
+        - Justify recommendation with concrete evidence
+        - Suggest potential investment strategy (e.g., long-term hold, swing trade)
+
+        6. Confidence Level
+        - Rate your recommendation's confidence (0-100%)
+        - Explain key factors influencing confidence
+
+        IMPORTANT GUIDELINES:
+        - Be objective and data-driven
+        - Avoid sensationalism
+        - Clearly distinguish between facts and interpretations
+        - Consider both quantitative and qualitative factors
+
+        Deliver the analysis in a professional, concise, and actionable format.
+        
+
+--- Investment Report ---
+### Comprehensive Stock Analysis for Company X
+
+#### 1. Company Fundamental Health
+
+- **Financial Stability**: Company X has reported strong Q2 earnings, indicating robust financial health. With a revenue of $1.2B and a net income of $250M, the company demonstrates solid profitability.
+  
+- **Key Financial Ratios**: 
+  - **P/E Ratio**: At 22.5, the P/E ratio suggests that the stock is reasonably valued compared to the industry average, assuming the tech sector's typical P/E range.
+  - **ROE**: A return on equity of 15.3% is a positive indicator of efficient management and profitability relative to shareholder equity.
+
+- **Growth Indicators**: The strong earnings report and positive sentiment suggest potential for continued growth. However, the tech sector's challenges could pose risks to sustained growth.
+
+#### 2. Market Sentiment and External Factors
+
+- **Recent News Impact**: The sentiment is mostly positive, driven by strong earnings. However, the broader tech sector facing challenges could temper enthusiasm.
+  
+- **Industry Trends**: The tech sector is experiencing headwinds, possibly due to regulatory pressures or market saturation. Company X's ability to navigate these challenges will be crucial.
+
+- **Macroeconomic Influences**: Interest rate hikes and inflationary pressures could impact tech valuations, but Company X's strong fundamentals may offer some insulation.
+
+#### 3. Technical Price Analysis
+
+- **Recent Price Movements**: The current price of $150.25 is above the 50-day moving average ($145.6) but below the 200-day moving average ($155.3), indicating mixed momentum.
+
+- **Support and Resistance Levels**: 
+  - **Support**: Around $145, near the 50-day moving average.
+  - **Resistance**: Around $155, aligning with the 200-day moving average.
+
+- **Momentum and Trading Signals**: The stock shows potential for upward momentum if it can break through the $155 resistance level.
+
+#### 4. Risk Assessment
+
+- **Short-term Risks**: Volatility in the tech sector and macroeconomic uncertainties could lead to short-term price fluctuations.
+
+- **Long-term Risks**: Sustained industry challenges and potential regulatory changes pose long-term risks.
+
+- **Comparative Risk**: Company X appears to be less risky than some tech peers due to its strong earnings and financial health.
+
+#### 5. Investment Recommendation
+
+- **Recommendation**: **Buy**
+  
+- **Justification**: The strong financial performance, reasonable valuation, and positive sentiment support a buy recommendation. While there are sector challenges, Company X's fundamentals provide a buffer.
+
+- **Investment Strategy**: Consider a long-term hold strategy, capitalizing on potential growth while being mindful of sector volatility.
+
+#### 6. Confidence Level
+
+- **Confidence Rating**: 75%
+
+- **Key Factors Influencing Confidence**: The strong earnings report and positive sentiment bolster confidence, but sector challenges and macroeconomic factors introduce uncertainty.
+
+### Conclusion
+
+Company X presents a compelling investment opportunity with strong fundamentals and positive sentiment. While there are risks associated with the tech sector, the company's financial health and reasonable valuation make it a suitable candidate for a buy recommendation, particularly for investors with a long-term horizon.

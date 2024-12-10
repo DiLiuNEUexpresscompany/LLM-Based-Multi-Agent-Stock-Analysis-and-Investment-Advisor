@@ -22,37 +22,28 @@ class FinancialCrew:
         tasks = StockAnalysisTasks()
 
         # Initialize agents
-        news_finder_agent = agents.news_finder()
-        price_tracker_agent = agents.price_tracker()
-        report_analyzer_agent = agents.report_analyzer()
-        investment_advisor_agent = agents.investment_advisor()
+        news_search_agent = agents.news_searcher()
+        price_track_agent = agents.price_tracker()
+        report_analysis_agent = agents.report_analyst()
+        investment_advice_agent = agents.investment_advisor()
 
         # Create tasks for each agent
-        news_task = tasks.news_search_task(news_finder_agent, self.company)
-        price_task = tasks.price_track_task(price_tracker_agent, self.company)
-        report_task = tasks.report_analysis_task(report_analyzer_agent, self.company)
-        recommendation_task = tasks.investment_advice_task(investment_advisor_agent, self.company)
+        news_task = tasks.news_search_task(news_search_agent, self.company)
+        price_task = tasks.price_track_task(price_track_agent, self.company)
+        report_task = tasks.report_analysis_task(report_analysis_agent, self.company)
+        recommendation_task = tasks.investment_advice_task(investment_advice_agent, self.company)
 
+        result = {}
 
-        # Create a Crew for task execution
-        crew = Crew(
-            agents=[
-                news_finder_agent, 
-                price_tracker_agent, 
-                report_analyzer_agent, 
-                investment_advisor_agent
-            ],
-            tasks=[
-                news_task, 
-                price_task, 
-                report_task, 
-                recommendation_task
-            ],
-            verbose=True
-        )
+        news_search_result = news_task.execute()
+        result.append({"news_data", news_search_result})
 
-        # Execute the tasks and return the result
-        result = crew.kickoff()
+        price_track_result = price_task.execute()
+        result.append({"price_data", price_track_result})
+
+        report_analyst_result = report_task.execute()
+        result.append({"report_data", report_analyst_result})
+
         return result
 
 if __name__ == "__main__":
@@ -76,3 +67,5 @@ if __name__ == "__main__":
     print("## Here is the final report: \n")
     print("########################\n")
     print(result)
+    with open('data/financial_report.txt', 'a') as f:
+        f.write(f"{result}\n")

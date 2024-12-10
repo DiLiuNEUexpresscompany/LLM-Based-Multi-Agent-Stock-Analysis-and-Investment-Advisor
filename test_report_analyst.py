@@ -21,24 +21,40 @@ def main():
     report_analyst = ReportAnalyst(registry)
     
     # Example query
-    question = "What percentage of global electricity usage does NVIDIA aim to match with renewable energy by the end of fiscal year 2025?"
+    company = "Apple"
+    input = f"""
+        Review the latest financial reports for {company}, including earnings reports, SEC filings, and annual reports.
+        Focus on:
+        - Revenue, net income, and cash flow trends.
+        - Key financial ratios (e.g., P/E ratio, EPS, ROE).
+        - Management's discussion and analysis.
+        - Identifying risks, opportunities, or red flags in the filings.
+
+        Your final report must:
+        - Provide a detailed breakdown of the company's financial performance.
+        - Highlight key strengths, weaknesses, and growth opportunities.
+        - Summarize any critical disclosures or statements that may affect investors' confidence.
+
+        Selected Company: {company}
+    """
     
     # Run the analysis
-    result = report_analyst.run(question)
+    result = report_analyst.run(input)
     
     # Print results
-    print("=" * 100)
-    print("Question:", result.get('question', 'N/A'))
-    print("\nContext:")
-    print(result.get('context', 'No context available'))
-    print("\n" + "=" * 100)
-    print("\nAnalysis:")
-    print(result.get('analysis', 'No analysis available'))
-    print("\n" + "=" * 100)
+    # print("=" * 100)
+    # print("Question:", result.get('question', 'N/A'))
+    # print("\nContext:")
+    # print(result.get('context', 'No context available'))
+    # print("\n" + "=" * 100)
+    # print("\nAnalysis:")
+    # print(result.get('analysis', 'No analysis available'))
+    # print("\n" + "=" * 100)
     
+    print(result)
     # Save results to a file
-    with open('data/report_analysis_output.json', 'w') as f:
-        json.dump(result, f, indent=2)
+    with open('data/report_analysis_output.txt', 'w') as f:
+        f.write(result)
 
 if __name__ == "__main__":
     main()

@@ -1,9 +1,9 @@
-import uuid
 from typing import Optional, List, Any, Callable
 
 class Task:
     def __init__(
         self, 
+        agent_name: str,
         description: str, 
         agent: Any,
         expected_output: Optional[str] = None,
@@ -20,6 +20,7 @@ class Task:
             context (List[Task], optional): Previous tasks that provide context
             callback (Callable, optional): Function to call after task completion
         """
+        self.agent_name = agent_name
         self.description = description
         self.agent = agent
         self.expected_output = expected_output or "Task output"
@@ -38,20 +39,9 @@ class Task:
         Returns:
             str: Result of task execution
         """
-        # Gather context from previous tasks
-        context_info = ""
-        for previous_task in self.context:
-            if previous_task.result:
-                context_info += f"Context from previous task: {previous_task.result}\n"
+        result = self.agent.run(self.description)
+        log_path = f"data/{self.agent_name}_output.txt"
+        with open(log_path, 'w') as file:
+            file.write(result)
+        return result
         
-        # Combine context with task description
-        full_description = context_info + "\n" + self.description
-        
-        # Execute task
-        self.result = self.agent.execute_task(full_description)
-        
-        # Run callback if provided
-        if self.callback:
-            self.callback(self.result)
-        
-        return self.result
