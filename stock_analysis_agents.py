@@ -1,15 +1,18 @@
 from agents.news_searcher import NewsSearcher
 from agents.price_tracker import PriceTracker
 from agents.tool_registry import ToolRegistry
-from agents.base_agent import BaseAgent
+from agents.report_analyst import ReportAnalyst
+from agents.investment_advisor import InvestmentAdvisor
 
 from tools.stock_price_tool import StockPriceTool
 from tools.news_search_tool import  NewsSearchTool
 from tools.data_analysis_tool import DataAnalysisTool
-
+from tools.report_retrieval_tool import ReportRetrievalTool
+from tools.report_analysis_tool import ReportAnalysisTool
+from tools.format_convert_tool import FormatConvertTool
 
 class StockAnalysisAgents:
-    def news_finder(self):
+    def news_searcher(self):
         """Creates a news finder agent."""
         registry = ToolRegistry()
         registry.register(NewsSearchTool())
@@ -22,10 +25,15 @@ class StockAnalysisAgents:
         registry.register(DataAnalysisTool())
         return PriceTracker(registry)
     
-    def report_analyzer(self):
+    def report_analyst(self):
         """Creates a report analyzer agent."""
-        pass
+        registry = ToolRegistry()
+        registry.register(ReportRetrievalTool())
+        registry.register(ReportAnalysisTool())
+        return ReportAnalyst(registry)
 
     def investment_advisor(self):
         """Creates an investment advisor agent."""
-        pass
+        registry = ToolRegistry()
+        registry.register(FormatConvertTool())
+        return InvestmentAdvisor(registry)

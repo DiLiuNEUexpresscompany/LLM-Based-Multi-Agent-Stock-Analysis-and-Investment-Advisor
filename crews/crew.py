@@ -1,10 +1,11 @@
 from typing import List, Any 
+from .task import Task
 
 class Crew:
     def __init__(
         self, 
         agents: List[Any], 
-        tasks: List[Any], 
+        tasks: List[Task], 
         verbose: bool = False
     ):
         """

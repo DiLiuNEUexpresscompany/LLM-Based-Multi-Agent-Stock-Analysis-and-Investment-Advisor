@@ -4,21 +4,9 @@ class StockAnalysisTasks:
     def news_search_task(self, agent, company):
         """Task for finding recent stock news about the company."""
         return Task(
+            agent_name="news_searcher",
             description=f"""
-                Research and gather the latest news related to {company}.
-                Focus on:
-                - Significant events affecting the company or industry.
-                - Market sentiment and any trending news stories.
-                - Analyst opinions and their potential impact on stock performance.
-                - Upcoming events like product launches, partnerships, or earnings reports.
-
-                Your final report must:
-                - Provide a comprehensive summary of recent and relevant news.
-                - Highlight how market sentiment could influence stock performance.
-                - Include at least 3 notable headlines with brief summaries.
-                - Add any insights into how these developments might impact the stock.
-
-                Selected Company: {company}
+                {company} stock
             """,
             agent=agent,
             expected_output="A comprehensive and concise summary of the latest news related to the company, with market sentiment insights.",
@@ -27,6 +15,7 @@ class StockAnalysisTasks:
     def price_track_task(self, agent, company):
         """Task for analyzing the stock price data of the company."""
         return Task(
+            agent_name="price_tracker",
             description=f"""
                 Analyze recent stock price data for {company}.
                 Focus on:
@@ -48,6 +37,7 @@ class StockAnalysisTasks:
     def report_analysis_task(self, agent, company):
         """Task for reading and analyzing the company's financial reports."""
         return Task(
+            agent_name="report_analyst",
             description=f"""
                 Review the latest financial reports for {company}, including earnings reports, SEC filings, and annual reports.
                 Focus on:
@@ -70,6 +60,7 @@ class StockAnalysisTasks:
     def investment_advice_task(self, agent, company):
         """Task for providing final investment advice for the company."""
         return Task(
+            agent_name="investment_advisor",
             description=f"""
                 Synthesize all available information on {company} to deliver comprehensive investment advice.
                 Consider:
