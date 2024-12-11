@@ -127,7 +127,10 @@ Encapsulates tools used by the agents to perform specific operations:
 Unit tests for individual components of the system. Run tests with:
 
 ```bash
-pytest tests/
+python test_news_searcher.py
+python test_price_tracker.py
+python test_report_analyst.py
+python test_investment_advisor.py
 ```
 ---
 
@@ -151,6 +154,3 @@ For questions or suggestions, please contact:
 liudix7@gmail.com
 
 chongchen1999@gmail.com
-
-
-
