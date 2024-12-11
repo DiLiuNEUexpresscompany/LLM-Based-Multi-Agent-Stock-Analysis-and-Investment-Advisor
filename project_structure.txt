@@ -1,6 +1,7 @@
 .
 ├── README.md
 ├── agents
+│   ├── __init__.py
 │   ├── base_agent.py
 │   ├── investment_advisor.py
 │   ├── news_searcher.py
@@ -10,7 +11,9 @@
 ├── crews
 │   ├── crew.py
 │   └── task.py
+├── data
 ├── main.py
+├── project_structure.txt
 ├── requirements.txt
 ├── stock_analysis_agents.py
 ├── stock_analysis_tasks.py
@@ -23,6 +26,7 @@
 │   ├── test_report_analyst.py
 │   └── test_tools.py
 └── tools
+    ├── __init__.py
     ├── base_tool.py
     ├── data_analysis_tool.py
     ├── news_search_tool.py
@@ -30,4 +34,4 @@
     ├── report_retrieval_tool.py
     └── stock_price_tool.py
 
-11 directories, 68 files
+6 directories, 44 files
