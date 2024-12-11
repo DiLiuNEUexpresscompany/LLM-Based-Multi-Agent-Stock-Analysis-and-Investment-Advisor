@@ -44,10 +44,12 @@ This project leverages Large Language Models (LLMs) and a multi-agent framework 
 
 ## Key Features
 
-- **Multi-Agent Design**: Specialized agents collaborate to perform specific tasks such as tracking stock prices, fetching news, and advising investments.
-- **Tool Integration**: Tools provide modular and reusable functionalities for the agents.
-- **Task Management**: A `crew` system ensures efficient task execution and delegation.
-- **Automated Reports**: Generates comprehensive financial investment reports based on the analysis.
+- **Multi-Agent Design**: Specialized agents collaborate to perform specific tasks such as tracking stock prices, fetching news, and advising on investments.  
+- **Tool Integration**: Modular and reusable tools empower agents with specific functionalities to enhance system efficiency.  
+- **Task Management**: A `crew` system ensures efficient task delegation and execution, optimizing resource utilization.  
+- **Model Fine-Tuning**: Fine-tuned machine learning models provide domain-specific insights and enhance the accuracy of predictions and recommendations.  
+- **Retrieval-Augmented Generation (RAG)**: Combines large language models with up-to-date external knowledge sources to deliver precise and contextually relevant outputs.  
+- **Automated Reports**: Generates comprehensive financial investment reports by synthesizing insights from various analyses.  
 
 ---
 
