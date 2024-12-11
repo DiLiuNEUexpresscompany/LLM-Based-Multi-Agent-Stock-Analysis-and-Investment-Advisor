@@ -472,17 +472,19 @@ if st.button("Analyze"):
                 with st.spinner("Generating AI analysis..."):
                     st.write(result.get("final_report"))
                 with st.expander("Click to view all retrieved files"):
+                    recent_news = result.get("news_data")
+                    price_trend = "\n" + result.get("price_data")
+                    report_analysis = "Here are the Report Analysis: \n" + result.get("report_data")
                     st.markdown(
                         f"""
-                        <div style="color: lightgray;">
-                            <h4 style="color: lightgray;">News Data:</h4>
-                            <p>{result.get("news_data")}</p>
-                            <h4 style="color: lightgray;">Price Data:</h4>
-                            <p>{result.get("price_data")}</p>
-                            <h4 style="color: lightgray;">Report Data:</h4>
-                            <p>{result.get("report_data")}</p>
+                        <div style="color: black;">
+                            <h2 style="color: black;">Recent News: </h2>
+                            <p>{recent_news}</p>
+                            <h2 style="color: black;">Price Trend: </h2>
+                            <p>{price_trend}</p>
+                            <h2 style="color: black;">Report Analysis: </h2>
+                            <p>{report_analysis}</p>
                         </div>
                         """,
                         unsafe_allow_html=True
                     )
-            
