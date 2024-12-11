@@ -1,0 +1,33 @@
+.
+├── README.md
+├── agents
+│   ├── base_agent.py
+│   ├── investment_advisor.py
+│   ├── news_searcher.py
+│   ├── price_tracker.py
+│   ├── report_analyst.py
+│   └── tool_registry.py
+├── crews
+│   ├── crew.py
+│   └── task.py
+├── main.py
+├── requirements.txt
+├── stock_analysis_agents.py
+├── stock_analysis_tasks.py
+├── tests
+│   ├── __init__.py
+│   ├── test_analysis_agent.py
+│   ├── test_investment_advisor.py
+│   ├── test_news_searcher.py
+│   ├── test_price_tracker.py
+│   ├── test_report_analyst.py
+│   └── test_tools.py
+└── tools
+    ├── base_tool.py
+    ├── data_analysis_tool.py
+    ├── news_search_tool.py
+    ├── report_analysis_tool.py
+    ├── report_retrieval_tool.py
+    └── stock_price_tool.py
+
+11 directories, 68 files
