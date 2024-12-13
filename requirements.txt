@@ -3,3 +3,4 @@ plotly
 astrapy
 langchain-astradb
 langchain 
+openai
