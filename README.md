@@ -136,6 +136,11 @@ python test_investment_advisor.py
 ```
 ---
 
+## Hugging Face Model Link
+https://huggingface.co/expresscompany/LLaMa3.1-8B-Instruction-Finance
+
+---
+
 ## Video Demo Link
 https://www.youtube.com/watch?v=-A0f8AeuQFM
 
