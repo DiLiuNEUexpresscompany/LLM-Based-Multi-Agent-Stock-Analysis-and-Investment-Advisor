@@ -1,0 +1,60 @@
+digraph "Project Structure" {
+	rankdir=TB size=10
+	root [label="Project Root" fillcolor="#333333" fontcolor=white shape=box style=filled]
+	agents [label=Agents fillcolor="#5C4033" fontcolor=white shape=box style=filled]
+	crews [label=Crews fillcolor="#5C4033" fontcolor=white shape=box style=filled]
+	tests [label=Tests fillcolor="#5C4033" fontcolor=white shape=box style=filled]
+	tools [label=Tools fillcolor="#5C4033" fontcolor=white shape=box style=filled]
+	main [label="main.py" fillcolor="#A0522D" fontcolor=white shape=box style=filled]
+	requirements [label="requirements.txt" fillcolor="#A0522D" fontcolor=white shape=box style=filled]
+	stock_agents [label="stock_analysis_agents.py" fillcolor="#A0522D" fontcolor=white shape=box style=filled]
+	stock_tasks [label="stock_analysis_tasks.py" fillcolor="#A0522D" fontcolor=white shape=box style=filled]
+	root -> agents
+	root -> crews
+	root -> tests
+	root -> tools
+	root -> main
+	root -> requirements
+	root -> stock_agents
+	root -> stock_tasks
+	"base_agent.py" [label="base_agent.py" fillcolor="#8B4513" fontcolor=white shape=box style=filled]
+	agents -> "base_agent.py"
+	"investment_advisor.py" [label="investment_advisor.py" fillcolor="#8B4513" fontcolor=white shape=box style=filled]
+	agents -> "investment_advisor.py"
+	"news_searcher.py" [label="news_searcher.py" fillcolor="#8B4513" fontcolor=white shape=box style=filled]
+	agents -> "news_searcher.py"
+	"price_tracker.py" [label="price_tracker.py" fillcolor="#8B4513" fontcolor=white shape=box style=filled]
+	agents -> "price_tracker.py"
+	"report_analyst.py" [label="report_analyst.py" fillcolor="#8B4513" fontcolor=white shape=box style=filled]
+	agents -> "report_analyst.py"
+	"tool_registry.py" [label="tool_registry.py" fillcolor="#8B4513" fontcolor=white shape=box style=filled]
+	agents -> "tool_registry.py"
+	"crew.py" [label="crew.py" fillcolor="#8B4513" fontcolor=white shape=box style=filled]
+	crews -> "crew.py"
+	"task.py" [label="task.py" fillcolor="#8B4513" fontcolor=white shape=box style=filled]
+	crews -> "task.py"
+	"test_analysis_agent.py" [label="test_analysis_agent.py" fillcolor="#8B4513" fontcolor=white shape=box style=filled]
+	tests -> "test_analysis_agent.py"
+	"test_investment_advisor.py" [label="test_investment_advisor.py" fillcolor="#8B4513" fontcolor=white shape=box style=filled]
+	tests -> "test_investment_advisor.py"
+	"test_news_searcher.py" [label="test_news_searcher.py" fillcolor="#8B4513" fontcolor=white shape=box style=filled]
+	tests -> "test_news_searcher.py"
+	"test_price_tracker.py" [label="test_price_tracker.py" fillcolor="#8B4513" fontcolor=white shape=box style=filled]
+	tests -> "test_price_tracker.py"
+	"test_report_analyst.py" [label="test_report_analyst.py" fillcolor="#8B4513" fontcolor=white shape=box style=filled]
+	tests -> "test_report_analyst.py"
+	"test_tools.py" [label="test_tools.py" fillcolor="#8B4513" fontcolor=white shape=box style=filled]
+	tests -> "test_tools.py"
+	"base_tool.py" [label="base_tool.py" fillcolor="#8B4513" fontcolor=white shape=box style=filled]
+	tools -> "base_tool.py"
+	"data_analysis_tool.py" [label="data_analysis_tool.py" fillcolor="#8B4513" fontcolor=white shape=box style=filled]
+	tools -> "data_analysis_tool.py"
+	"news_search_tool.py" [label="news_search_tool.py" fillcolor="#8B4513" fontcolor=white shape=box style=filled]
+	tools -> "news_search_tool.py"
+	"report_analysis_tool.py" [label="report_analysis_tool.py" fillcolor="#8B4513" fontcolor=white shape=box style=filled]
+	tools -> "report_analysis_tool.py"
+	"report_retrieval_tool.py" [label="report_retrieval_tool.py" fillcolor="#8B4513" fontcolor=white shape=box style=filled]
+	tools -> "report_retrieval_tool.py"
+	"stock_price_tool.py" [label="stock_price_tool.py" fillcolor="#8B4513" fontcolor=white shape=box style=filled]
+	tools -> "stock_price_tool.py"
+}
