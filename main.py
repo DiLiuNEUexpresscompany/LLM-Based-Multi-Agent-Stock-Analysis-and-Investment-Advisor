@@ -13,6 +13,10 @@ import time
 import random
 from crews.crew import FinancialCrew
 
+
+from agents.tool_registry import ToolRegistry
+from agents.visualization_agent import VisualizationAgent
+
 # Load environment variables
 load_dotenv()
 
@@ -471,6 +475,20 @@ if st.button("Analyze"):
                 # AI Analysis
                 with st.spinner("Generating AI analysis..."):
                     st.write(result.get("final_report"))
+                    registry = ToolRegistry()
+                    visualization_agent = VisualizationAgent(registry)
+                    visualizations = visualization_agent.run(result)
+
+                    # 在 streamlit 中显示图表
+                    col1, col2, col3 = st.columns(3)
+                    with col1:
+                        st.plotly_chart(visualizations["confidence"], use_container_width=True)
+                    with col2:
+                        st.plotly_chart(visualizations["growth"], use_container_width=True)
+                    with col3:
+                        st.plotly_chart(visualizations["radar"], use_container_width=True)
+
+
                 with st.expander("Click to view all retrieved files"):
                     recent_news = result.get("news_data")
                     price_trend = "\n" + result.get("price_data")

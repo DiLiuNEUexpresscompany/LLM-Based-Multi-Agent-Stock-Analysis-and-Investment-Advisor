@@ -12,7 +12,7 @@ class FormatConvertTool(BaseTool):
         load_dotenv()
         self.registry = registry
         self.client = Groq(api_key=os.getenv("GROQ_API_KEY"))
-        self.model = "llama3-groq-70b-8192-tool-use-preview"
+        self.model = "llama-3.3-70b-versatile"
     
     def name(self) -> str:
         return "llm_text_converter"
