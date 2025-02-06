@@ -12,7 +12,7 @@ class BaseAgent(ABC):
         self.registry = registry
         load_dotenv()
         self.client = Groq(api_key=os.getenv("GROQ_API_KEY"))
-        self.model = "llama3-groq-70b-8192-tool-use-preview"
+        self.model = "llama-3.3-70b-versatile"
         self.role = "default"
         self.goal = "default"
         self.backstory = "default"
