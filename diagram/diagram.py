@@ -36,7 +36,7 @@ class ColorScheme:
     
     # Edge colors
     EDGE_PRIMARY = "#718096"
-    EDGE_FEEDBACK = "#718096"
+    EDGE_FEEDBACK = "#000000"
     EDGE_INFO = "#ED64A6"
 
 class AdvisorySystemConfig:
@@ -162,12 +162,12 @@ class AdvisorySystemConfig:
                 ('Market Track Task', 'Advisor', {'color': self.colors.EDGE_INFO, 'style': 'bold', 'label': '', 'penwidth': '2', 'fontname': 'Arial'}),
                 ('Report Analysis Task', 'Advisor', {'color': self.colors.EDGE_INFO, 'style': 'bold', 'label': '', 'penwidth': '2', 'fontname': 'Arial'})
             ],
-            # 'feedback': [
-            #     ('News Searcher', 'News Search Task', {'color': self.colors.EDGE_FEEDBACK, 'label': 'feedback', 'fontname': 'Arial', 'constraint': 'false'}),
-            #     ('Market Tracker', 'Market Track Task', {'color': self.colors.EDGE_FEEDBACK, 'label': 'feedback', 'fontname': 'Arial', 'constraint': 'false'}),
-            #     ('Report Analyst', 'Report Analysis Task', {'color': self.colors.EDGE_FEEDBACK, 'label': 'feedback', 'fontname': 'Arial', 'constraint': 'false'}),
-            #     ('Advisor', 'Advisory Task', {'color': self.colors.EDGE_FEEDBACK, 'label': 'feedback', 'fontname': 'Arial', 'constraint': 'false'})
-            # ]
+            'feedback': [
+                ('News Searcher', 'News Search Task', {'color': self.colors.EDGE_FEEDBACK, 'label': 'feedback', 'dir': 'back','penwidth': '2', 'constraint': 'false', 'fontname': 'Arial'}),
+                ('Market Tracker', 'Market Track Task', {'color': self.colors.EDGE_FEEDBACK, 'label': 'feedback', 'dir': 'back', 'penwidth': '2', 'constraint': 'false', 'fontname': 'Arial'}),
+                ('Report Analyst', 'Report Analysis Task', {'color': self.colors.EDGE_FEEDBACK, 'label': 'feedback', 'dir': 'back', 'penwidth': '2', 'constraint': 'false', 'fontname': 'Arial'}),
+                ('Advisor', 'Advisory Task', {'color': self.colors.EDGE_FEEDBACK, 'label': 'feedback', 'dir': 'back', 'penwidth': '2', 'constraint': 'false', 'fontname': 'Arial'})
+            ]
         }
 
 class AdvisoryDiagramGenerator:
