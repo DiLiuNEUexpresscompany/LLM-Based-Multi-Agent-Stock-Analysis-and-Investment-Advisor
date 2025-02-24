@@ -38,7 +38,7 @@ class FinetunedReportAnalyst:
     def _init_huggingface_client(self):
         """Initialize Hugging Face TGI client."""
         return OpenAI(
-            base_url="https://b4hv8vle4pryfmy8.us-east-1.aws.endpoints.huggingface.cloud/v1/",
+            base_url="https://q29gzlqb0cu7iho2.us-east-1.aws.endpoints.huggingface.cloud/v1/",
             api_key=self.hf_api_key
         )
 

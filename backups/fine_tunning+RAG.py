@@ -81,7 +81,7 @@ def main():
 
     # Connect to the Hugging Face TGI client
     client_hf = OpenAI(
-        base_url="https://b4hv8vle4pryfmy8.us-east-1.aws.endpoints.huggingface.cloud/v1/",
+        base_url="https://q29gzlqb0cu7iho2.us-east-1.aws.endpoints.huggingface.cloud/v1/",
         api_key=hf_api_key
     )
 
