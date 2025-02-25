@@ -48,7 +48,7 @@ class Task:
 
         result = self.agent.run(self.description)
         log_path = f"data/{self.agent_name}_output.md"
-        with open(log_path, 'w') as file:
+        with open(log_path, 'w', encoding='utf-8') as file:
             file.write(result)
         return result
         

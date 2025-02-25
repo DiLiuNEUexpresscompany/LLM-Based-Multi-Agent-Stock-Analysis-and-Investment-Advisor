@@ -12,7 +12,7 @@ registry = ToolRegistry()
 registry.register(NewsSearchTool())
 news_agent = NewsSearcher(registry)
 
-company = "Apple"
+company = "Alibaba"
 input = f"""
     Research and gather the latest news related to {company}.
     Focus on:
