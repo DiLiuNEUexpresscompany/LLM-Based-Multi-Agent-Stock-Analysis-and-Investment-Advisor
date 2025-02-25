@@ -112,6 +112,7 @@ class NewsSearchTool(BaseTool):
                     return [{"error": "No results found for the given query"}]
 
                 formatted_results = []
+                limit = int(limit)
                 for i, article in enumerate(articles[:limit]):
                     try:
                         pub_date = article.get('pubDate', '')

@@ -32,7 +32,7 @@ class BaseMathAgent(ABC):
         load_dotenv()
         
         # Initialize OpenAI client
-        self.base_url = base_url or os.getenv("HUGGINGFACE_BASE_URLL")
+        self.base_url = base_url or os.getenv("HUGGINGFACE_BASE_URL")
         self.api_key = api_key or os.getenv("HUGGUNGFACE_ENDPOINT_API_KEY")
         
         if not self.base_url or not self.api_key:
