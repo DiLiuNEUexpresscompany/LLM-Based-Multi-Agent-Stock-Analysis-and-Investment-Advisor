@@ -25,8 +25,11 @@ class InvestmentAdvisor(BaseAgent):
         # No tools for this agent
         self.tools = []
         load_dotenv()
-        self.api_key = os.getenv("OPENAI_API_KEY")
-        self.client_OpenAI = OpenAI()
+        self.api_key = os.getenv("DMX_API")
+        self.client_OpenAI = OpenAI(
+            base_url="https://www.dmxapi.com/v1", 
+            api_key=os.getenv("DMX_API")
+        )
 
     def process_tool_arguments(self, tool_name, arguments):
         pass
@@ -35,7 +38,7 @@ class InvestmentAdvisor(BaseAgent):
 
     def generate_investment_analysis_prompt(self, news_data, price_data, report_data):
         """
-        Generate a comprehensive prompt for investment analysis
+        Generate a comprehensive prompt for investment analysis with markdown formatting and icons
         
         Args:
         - news_data (dict): Recent news about the company
@@ -43,75 +46,83 @@ class InvestmentAdvisor(BaseAgent):
         - report_data (dict): Recent financial report insights
         
         Returns:
-        - str: Detailed prompt for investment analysis
+        - str: Detailed prompt for investment analysis with enhanced formatting
         """
         prompt = f"""
             You are a senior investment advisor conducting a comprehensive stock analysis. 
             Provide a detailed investment recommendation based on the following data:
 
-            📰 RECENT NEWS ANALYSIS:
+            ## 📰 RECENT NEWS ANALYSIS
+            ```json
             {json.dumps(news_data, indent=2)}
+            ```
 
-            💹 STOCK PRICE DYNAMICS:
+            ## 📈 STOCK PRICE DYNAMICS
+            ```json
             {json.dumps(price_data, indent=2)}
+            ```
 
-            📊 FINANCIAL REPORT INSIGHTS:
+            ## 📊 FINANCIAL REPORT INSIGHTS
+            ```json
             {json.dumps(report_data, indent=2)}
+            ```
 
-            REQUIRED ANALYSIS COMPONENTS:
-            1. Company Fundamental Health
-            - Assess overall financial stability
-            - Evaluate key financial ratios
-            - Identify potential growth indicators or red flags
+            # 🔍 REQUIRED ANALYSIS COMPONENTS
 
-            2. Market Sentiment and External Factors
-            - Analyze recent news impact on stock perception
-            - Assess industry trends and competitive landscape
-            - Evaluate macroeconomic influences
+            ## 1️⃣ Company Fundamental Health
+            - 🏛️ Assess overall financial stability
+            - 📑 Evaluate key financial ratios
+            - 🚩 Identify potential growth indicators or red flags
 
-            3. Technical Price Analysis
-            - Review recent price movements
-            - Identify support and resistance levels
-            - Assess momentum and trading signals
+            ## 2️⃣ Market Sentiment and External Factors
+            - 📣 Analyze recent news impact on stock perception
+            - 🏭 Assess industry trends and competitive landscape
+            - 🌐 Evaluate macroeconomic influences
 
-            4. Risk Assessment
-            - Short-term and long-term risk evaluation
-            - Potential volatility factors
-            - Comparative risk against sector benchmarks
+            ## 3️⃣ Technical Price Analysis
+            - 📉 Review recent price movements
+            - 🧲 Identify support and resistance levels
+            - 🔄 Assess momentum and trading signals
 
-            5. Investment Recommendation
-            - Provide a clear recommendation:
-                * Strong Buy
-                * Buy
-                * Hold
-                * Sell
-                * Strong Sell
-            - Justify recommendation with concrete evidence
-            - Suggest potential investment strategy (e.g., long-term hold, swing trade)
+            ## 4️⃣ Risk Assessment
+            - ⚖️ Short-term and long-term risk evaluation
+            - 📊 Potential volatility factors
+            - 🔍 Comparative risk against sector benchmarks
 
-            6. Confidence Level
-            - Rate your recommendation's confidence (0-100%)
-            - Explain key factors influencing confidence
+            ## 5️⃣ Investment Recommendation
+            - ✅ Provide a clear recommendation:
+                * 🔥 **Strong Buy**
+                * 👍 **Buy**
+                * ✋ **Hold**
+                * 👎 **Sell**
+                * ❌ **Strong Sell**
+            - 📝 Justify recommendation with concrete evidence
+            - 💼 Suggest potential investment strategy (e.g., long-term hold, swing trade)
 
-            IMPORTANT GUIDELINES:
-            - Be objective and data-driven
-            - Avoid sensationalism
-            - Clearly distinguish between facts and interpretations
-            - Consider both quantitative and qualitative factors
+            ## 6️⃣ Confidence Level
+            - 🎯 Rate your recommendation's confidence (0-100%)
+            - 🧩 Explain key factors influencing confidence
+
+            ## ⚠️ IMPORTANT GUIDELINES
+            - 🔬 Be objective and data-driven
+            - 🧊 Avoid sensationalism
+            - 🔍 Clearly distinguish between facts and interpretations
+            - ⚖️ Consider both quantitative and qualitative factors
 
             Deliver the analysis in a professional, concise, and actionable format.
+            You should use markdown formatting and icons to enhance the presentation.
             """
         return prompt
     
     def run(self, prompt):
         response = self.client_OpenAI.chat.completions.create(
-            model="gpt-4o",
+            model="grok-3",
             messages=[
                 {"role": "system", "content": "You are a senior investment advisor."},
                 {"role": "user", "content": prompt}
             ],
-            temperature=0.1,
-            max_tokens=1024
+            temperature=0.3,
+            max_tokens=2048
         )
         
         # Extract the generated report
