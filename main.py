@@ -1,4 +1,9 @@
 # main.py
+import sys
+import asyncio
+if sys.platform.startswith('win'):
+    asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
+
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -19,6 +24,8 @@ from agents.visualization_agent import VisualizationAgent
 
 # Load environment variables
 load_dotenv()
+
+
 
 st.set_page_config(
     page_title="Intelligent Stock Analysis",

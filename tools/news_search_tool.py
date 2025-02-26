@@ -2,7 +2,7 @@ import asyncio
 try:
     asyncio.get_running_loop()
 except RuntimeError:
-    asyncio.set_event_loop(asyncio.new_event_loop())
+    asyncio.set_event_loop(asyncio.WindowsProactorEventLoopPolicy().new_event_loop())
 # news_search_tool.py
 import http.client
 import urllib.parse
@@ -83,10 +83,10 @@ class NewsSearchTool(BaseTool):
                 run_conf = CrawlerRunConfig(cache_mode=CacheMode.BYPASS)
                 async with AsyncWebCrawler() as crawler:
                     result = await crawler.arun(url, config=run_conf)
-                    # 返回爬取页面的 Markdown 格式内容
-                    return result.markdown
+                    return result.markdown  # Markdown 格式内容
             return asyncio.run(crawl())
         except Exception as e:
+            # 返回错误提示，而不是抛出异常，从而确保文章不会被跳过
             return f"Error fetching content with Crawl4AI: {str(e)}"
 
     def execute(self, query: str = None, limit: int = 10, **kwargs) -> List[Dict]:
@@ -159,10 +159,13 @@ class NewsSearchTool(BaseTool):
                             'sentiment': article.get('sentiment') or ''
                         }
                         
-                        # 使用 Crawl4AI 爬取每个新闻链接的文章内容
+                        # 对每个文章链接爬取内容，单独捕获异常以确保文章不会因爬取失败而跳过
                         if link:
                             print(f"Scraping content from link: {link}")
-                            article_content = self._scrape_article_content(link)
+                            try:
+                                article_content = self._scrape_article_content(link)
+                            except Exception as inner_e:
+                                article_content = f"Error fetching content: {inner_e}"
                             formatted_article['article_content'] = article_content
                         else:
                             formatted_article['article_content'] = 'No link provided'
@@ -171,12 +174,23 @@ class NewsSearchTool(BaseTool):
                         formatted_results.append(formatted_article)
                     except Exception as e:
                         print(f"Error formatting article {i+1}: {str(e)}")
+                        # 可选：即使出错，也构造一个带有错误信息的文章返回，而不是跳过该文章
+                        fallback_article = {
+                            'title': article.get('title') or 'No title',
+                            'description': 'Error formatting article',
+                            'url': article.get('link') or '',
+                            'published_at': self._format_date(pub_date) if pub_date else 'Unknown date',
+                            'time_ago': self._calculate_time_ago(pub_date) if pub_date else 'Unknown time',
+                            'source': article.get('source_id') or 'Unknown source',
+                            'author': author,
+                            'image_url': article.get('image_url') or '',
+                            'categories': article.get('category') or [],
+                            'sentiment': article.get('sentiment') or '',
+                            'article_content': f"Error: {str(e)}"
+                        }
+                        formatted_results.append(fallback_article)
                         continue
 
-                if not formatted_results:
-                    print("No results were successfully formatted")
-                    return [{"error": "Failed to format any news results"}]
-                
                 print(f"Successfully formatted {len(formatted_results)} articles")
                 return formatted_results
 
