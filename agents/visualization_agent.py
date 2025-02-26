@@ -76,7 +76,6 @@ class VisualizationAgent(BaseAgent):
             self.color_scheme['accent']      # 75-100
         ]
         
-        
         fig = go.Figure(go.Indicator(
             mode="gauge+number",
             value=confidence_score,
